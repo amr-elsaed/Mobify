@@ -1,0 +1,52 @@
+using Microsoft.EntityFrameworkCore;
+using Mobify.BLL.AutoMapper;
+using Mobify.BLL.Services.Abstraction;
+using Mobify.BLL.Services.Implmentation;
+using Mobify.DAL.DataBase.DBContext;
+using Mobify.DAL.Repo.Abstraction;
+using Mobify.DAL.Repo.Implmentation;
+namespace Mobify.PL
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ApplicationDBContext>(opt =>
+            {
+                opt.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+            });
+            builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
+            builder.Services.AddScoped<ICategoryService, CategoryServices>();
+            builder.Services.AddScoped<IBrandRepo, BrandRepo>();
+            builder.Services.AddScoped<IBrandServices, BrandServices>();
+            builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.Run();
+        }
+    }
+}
