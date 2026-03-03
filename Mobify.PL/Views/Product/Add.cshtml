@@ -1,0 +1,286 @@
+﻿@using Mobify.BLL.ModelVM.ProductVM
+@model AddProductVM
+
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<style>
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; 
+        min-height: 90vh;
+        padding-top: 30px;
+        background-color: #f8f9fa; 
+    }
+
+ 
+    .admin-card {
+        width: 100%;
+        max-width: 850px; 
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border: 1px solid #dee2e6;
+        padding: 20px 30px;
+    }
+
+    .admin-card-header h4 {
+        font-size: 1.5rem;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .form-buttons {
+        justify-content: flex-start;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="form-wrapper">
+    <div class="admin-card">
+        <div class="admin-card-header mb-4">
+            <h4><i class="bi bi-plus-circle-fill me-2"></i>Create Product</h4>
+            <small class="text-muted">Add a new product</small>
+        </div>
+        <div class="admin-card-body">
+            <form asp-action="Add" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="display:none;"></div>
+
+                <!-- Basic Info -->
+                <div class="mb-4">
+                    <label asp-for="Name" class="form-label fw-semibold">Product Name</label>
+                    <input asp-for="Name" class="form-control form-control-lg" placeholder="e.g. iPhone 14 Pro" />
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Description" class="form-label fw-semibold">Description</label>
+                    <textarea asp-for="Description" class="form-control form-control-lg" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <!-- Specs -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label asp-for="CPU" class="form-label fw-semibold">CPU</label>
+                        <input asp-for="CPU" class="form-control" placeholder="e.g. Snapdragon 8 Gen 2" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Screen" class="form-label fw-semibold">Screen</label>
+                        <input asp-for="Screen" class="form-control" placeholder="e.g. 6.1 inch OLED" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Camera" class="form-label fw-semibold">Camera</label>
+                        <input asp-for="Camera" class="form-control" placeholder="e.g. 48MP + 12MP" />
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label asp-for="Battary" class="form-label fw-semibold">Battery</label>
+                        <input asp-for="Battary" class="form-control" placeholder="e.g. 4500 mAh" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="StockQuantity" class="form-label fw-semibold">Stock Quantity</label>
+                        <input asp-for="StockQuantity" type="number" class="form-control" min="0" />
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Price" class="form-label fw-semibold">Price</label>
+                        <input asp-for="Price" type="number" class="form-control" min="0" />
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="RAM" class="form-label fw-semibold">RAM</label>
+                        <input asp-for="RAM" type="number" class="form-control" min="1" />
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Color" class="form-label fw-semibold">Color</label>
+                        <input asp-for="Color" class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Storage" class="form-label fw-semibold">Storage</label>
+                        <input asp-for="Storage" type="number" class="form-control" min="2" />
+                    </div>
+
+                </div>
+
+                <!-- Category & Brand -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="CategoryId" class="form-label fw-semibold">Category</label>
+                        <select asp-for="CategoryId" class="form-select">
+                            <option value="">-- Select Category --</option>
+                            @foreach (var cat in ViewBag.Categories)
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="BrandId" class="form-label fw-semibold">Brand</label>
+                        <select asp-for="BrandId" class="form-select">
+                            <option value="">-- Select Brand --</option>
+                            @foreach (var brand in ViewBag.Brands)
+                            {
+                                <option value="@brand.Id">@brand.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="BrandId" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Product Photos</label>
+                    <input asp-for="FormFiles" type="file" multiple class="form-control" id="productPhotosInput" />
+                    <div id="previewContainer" class="mt-2 d-flex flex-wrap gap-2"></div>
+                </div>
+
+                
+                
+                
+                <!-- Advantages / Disadvantages -->
+                @* <div class="mb-4">
+                    <label class="form-label fw-semibold">Advantages</label>
+                    <input type="text" name="AdvProperties" class="form-control mb-2" placeholder="Enter advantage" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Disadvantages</label>
+                    <input type="text" name="DisAdvProperties" class="form-control mb-2" placeholder="Enter disadvantage" />
+                </div> *@
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Advantages</label>
+
+                    <div id="advContainer">
+                        <div class="input-group mb-2">
+                            <input type="text" name="AdvProperties[0]" class="form-control" placeholder="Enter advantage" />
+                            <button type="button" class="btn btn-danger remove-field">X</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="addAdv">
+                        + Add Advantage
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Disadvantages</label>
+
+                    <div id="disAdvContainer">
+                        <div class="input-group mb-2">
+                            <input type="text" name="DisAdvProperties[0]" class="form-control" placeholder="Enter disadvantage" />
+                            <button type="button" class="btn btn-danger remove-field">X</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="addDisAdv">
+                        + Add Disadvantage
+                    </button>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <!-- Buttons -->
+                <div class="d-flex gap-2 form-buttons">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i> Create
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-1"></i> Back to List
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const input = document.getElementById('productPhotosInput');
+        const preview = document.getElementById('previewContainer');
+
+        input.addEventListener('change', function () {
+            preview.innerHTML = '';
+            const files = input.files;
+
+            if (files) {
+                Array.from(files).forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.width = '80px';
+                        img.style.height = '80px';
+                        img.style.objectFit = 'cover';
+                        img.style.borderRadius = '5px';
+                        img.style.border = '1px solid #ddd';
+                        preview.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+        let advIndex = 1;
+        let disAdvIndex = 1;
+
+        // Add Advantage
+        document.getElementById("addAdv").addEventListener("click", function () {
+            const container = document.getElementById("advContainer");
+
+            const div = document.createElement("div");
+            div.classList.add("input-group", "mb-2");
+
+            div.innerHTML = `
+                <input type="text" name="AdvProperties[${advIndex}]" class="form-control" placeholder="Enter advantage" />
+                <button type="button" class="btn btn-danger remove-field">X</button>
+            `;
+
+            container.appendChild(div);
+            advIndex++;
+        });
+
+        // Add Disadvantage
+        document.getElementById("addDisAdv").addEventListener("click", function () {
+            const container = document.getElementById("disAdvContainer");
+
+            const div = document.createElement("div");
+            div.classList.add("input-group", "mb-2");
+
+            div.innerHTML = `
+                <input type="text" name="DisAdvProperties[${disAdvIndex}]" class="form-control" placeholder="Enter disadvantage" />
+                <button type="button" class="btn btn-danger remove-field">X</button>
+            `;
+
+            container.appendChild(div);
+            disAdvIndex++;
+        });
+
+        // Remove field (delegation)
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-field")) {
+                e.target.parentElement.remove();
+            }
+        });
+    </script>
+}

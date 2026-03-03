@@ -45,8 +45,6 @@ namespace Mobify.BLL.Services.Implmentation
             }
         }
 
-
-
         public async Task<Response<List<ShowBrandVM>>> GetAll()
         {
             try

@@ -1,0 +1,236 @@
+﻿@using Mobify.BLL.ModelVM.ProductVM
+@model EditProductVM
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<style>
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 90vh;
+        padding-top: 30px;
+        background-color: #f8f9fa;
+    }
+
+    .admin-card {
+        width: 100%;
+        max-width: 900px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border: 1px solid #dee2e6;
+        padding: 20px 30px;
+    }
+
+    .image-box img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+</style>
+
+<div class="form-wrapper">
+    <div class="admin-card">
+
+        <h4 class="mb-3">
+            <i class="bi bi-pencil-square me-2"></i>Edit Product
+        </h4>
+
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <!-- Basic Info -->
+            <div class="mb-4">
+                <label asp-for="Name" class="form-label fw-semibold"></label>
+                <input asp-for="Name" class="form-control form-control-lg" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Description" class="form-label fw-semibold"></label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            </div>
+
+            <!-- Specs -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label asp-for="CPU" class="form-label fw-semibold"></label>
+                    <input asp-for="CPU" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Screen" class="form-label fw-semibold"></label>
+                    <input asp-for="Screen" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Camera" class="form-label fw-semibold"></label>
+                    <input asp-for="Camera" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label asp-for="Battary" class="form-label fw-semibold"></label>
+                    <input asp-for="Battary" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="StockQuantity" class="form-label fw-semibold"></label>
+                    <input asp-for="StockQuantity" type="number" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Price" class="form-label fw-semibold">Price</label>
+                    <input asp-for="Price" type="number" class="form-control" min="0" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="RAM" class="form-label fw-semibold">RAM</label>
+                    <input asp-for="RAM" type="number" class="form-control" min="1" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Color" class="form-label fw-semibold">Color</label>
+                    <input asp-for="Color" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Storage" class="form-label fw-semibold">Storage</label>
+                    <input asp-for="Storage" type="number" class="form-control" min="2" />
+                </div>
+            </div>
+
+            <!-- Category & Brand -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label asp-for="CategoryId" class="form-label fw-semibold"></label>
+                    <select asp-for="CategoryId" class="form-select">
+                        <option value="">-- Select Category --</option>
+                        @foreach (var cat in ViewBag.Categories)
+                        {
+                            <option value="@cat.Id">@cat.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="BrandId" class="form-label fw-semibold"></label>
+                    <select asp-for="BrandId" class="form-select">
+                        <option value="">-- Select Brand --</option>
+                        @foreach (var brand in ViewBag.Brands)
+                        {
+                            <option value="@brand.Id">@brand.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <!-- Existing Photos -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Existing Photos</label>
+
+                <div class="d-flex flex-wrap gap-3">
+                    @for (int i = 0; i < Model.ExistingPhoto.Count; i++)
+                    {
+                        <div class="image-box text-center">
+
+                            <img src="~/BrandPhotoes/@Model.ExistingPhoto[i]" />
+
+                            <div class="form-check mt-2">
+                                <input type="checkbox"
+                                       name="PhotoesToDelete"
+                                       value="@Model.ExistingPhoto[i]"
+                                       class="form-check-input" />
+                                <label class="form-check-label text-danger small">
+                                    Remove
+                                </label>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Add New Photos -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Add New Photos</label>
+                <input asp-for="FormFiles" type="file" multiple class="form-control" id="productPhotosInput" />
+                <div id="previewContainer" class="mt-3 d-flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Advantages -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Advantages</label>
+                @for (int i = 0; i < Model.AdvProperties.Count; i++)
+                {
+                    <input type="text"
+                           name="AdvProperties[@i]"
+                           value="@Model.AdvProperties[i]"
+                           class="form-control mb-2" />
+                }
+            </div>
+
+            <!-- Disadvantages -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Disadvantages</label>
+                @for (int i = 0; i < Model.DisAdvProperties.Count; i++)
+                {
+                    <input type="text"
+                           name="DisAdvProperties[@i]"
+                           value="@Model.DisAdvProperties[i]"
+                           class="form-control mb-2" />
+                }
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i> Save Changes
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    Back
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const input = document.getElementById('productPhotosInput');
+        const preview = document.getElementById('previewContainer');
+
+        input.addEventListener('change', function () {
+            preview.innerHTML = '';
+            const files = input.files;
+
+            if (files) {
+                Array.from(files).forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.width = '80px';
+                        img.style.height = '80px';
+                        img.style.objectFit = 'cover';
+                        img.style.borderRadius = '6px';
+                        img.style.border = '1px solid #ddd';
+                        preview.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+    </script>
+}

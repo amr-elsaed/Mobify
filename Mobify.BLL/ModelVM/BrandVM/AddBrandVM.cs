@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-namespace Mobify.BLL.ModelVM.BrandVM
+﻿namespace Mobify.BLL.ModelVM.BrandVM
 {
     public class AddBrandVM
     {

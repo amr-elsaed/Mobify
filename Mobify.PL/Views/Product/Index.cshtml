@@ -1,0 +1,154 @@
+﻿@using Mobify.BLL.ModelVM.ProductVM
+@using Mobify.BLL.ModelVM.ResponseResult
+@model PagedResult<ShowProductVM>
+
+@{
+    ViewData["Title"] = "Products Management";
+}
+
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-semibold mb-0">Products Management</h3>
+        <a asp-action="Add" class="btn btn-success">
+            + Add Product
+        </a>
+    </div>
+
+    <!-- 🔎 Search & Filters -->
+    <form method="get" class="row g-3 align-items-end mb-4 p-3 border rounded shadow-sm bg-light">
+
+        <div class="col-md-3">
+            <label class="form-label small fw-semibold">Search</label>
+            <input type="text"
+                   name="Search"
+                   value="@Context.Request.Query["Search"]"
+                   class="form-control"
+                   placeholder="Search by name..." />
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label small fw-semibold">Sort</label>
+            <select name="Sort" class="form-select">
+                <option value="">Sort By</option>
+                <option value="asc" selected="@(Context.Request.Query["Sort"] == "asc")">
+                    Price Asc
+                </option>
+                <option value="desc" selected="@(Context.Request.Query["Sort"] == "desc")">
+                    Price Desc
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label small fw-semibold">Category</label>
+            <select name="CategoryId" class="form-select">
+                <option value="">Category</option>
+                @foreach (var cat in ViewBag.Categories)
+                {
+                    <option value="@cat.Id"
+                            selected="@(Context.Request.Query["CategoryId"] == cat.Id.ToString())">
+                        @cat.Name
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label small fw-semibold">Brand</label>
+            <select name="BrandId" class="form-select">
+                <option value="">Brand</option>
+                @foreach (var brand in ViewBag.Brands)
+                {
+                    <option value="@brand.Id"
+                            selected="@(Context.Request.Query["BrandId"] == brand.Id.ToString())">
+                        @brand.Name
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label small fw-semibold">Page Size</label>
+            <input type="number"
+                   name="PageSize"
+                   value="@Context.Request.Query["PageSize"]"
+                   class="form-control"
+                   placeholder="Page Size" />
+        </div>
+
+        <div class="col-md-1">
+            <button type="button" class="btn btn-primary w-100" id="resetFilters">
+                Reset
+            </button>
+        </div>
+
+    </form>
+
+    <!-- 📋 Products Table -->
+    <!-- 📄 Pagination -->
+    <div id="productsContainer">
+        @await Html.PartialAsync("_ProductsTablePartial", Model)
+    </div>
+
+</div>
+
+<script>
+    const form = document.querySelector("form");
+    const container = document.getElementById("productsContainer");
+
+    let timeout = null;
+
+    function loadProducts(page = null) {
+
+        const formData = new FormData(form);
+        const params = new URLSearchParams(formData);
+
+        if (page) {
+            params.set("page", page);
+        }
+
+        fetch(`/Product?${params.toString()}`, {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
+        .then(res => res.text())
+        .then(html => {
+            container.innerHTML = html;
+            attachPagination();
+        });
+    }
+
+    function debounceLoad() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            loadProducts();
+        }, 500);
+    }
+
+    form.querySelectorAll("input").forEach(input => {
+        input.addEventListener("input", debounceLoad);
+    });
+
+    form.querySelectorAll("select").forEach(select => {
+        select.addEventListener("change", debounceLoad);
+    });
+
+    function attachPagination() {
+        document.querySelectorAll(".page-link-ajax").forEach(link => {
+            link.addEventListener("click", () => {
+                const page = link.dataset.page;
+                loadProducts(page);
+            });
+        });
+    }
+
+    attachPagination();
+
+    document.getElementById("resetFilters").addEventListener('click',()=>{
+        form.reset();
+        loadProducts();
+    })
+</script>

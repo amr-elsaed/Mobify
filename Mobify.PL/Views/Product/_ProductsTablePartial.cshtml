@@ -1,0 +1,94 @@
+﻿@using Mobify.BLL.ModelVM.ProductVM
+@using Mobify.BLL.ModelVM.ResponseResult
+@model PagedResult<ShowProductVM>
+
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-hover align-middle text-center mb-0">
+
+        <thead class="table-dark">
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.Items.Any())
+            {
+                foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/ProductPhotoes/@item.ProductPhotoURL"
+                                 width="55"
+                                 class="rounded shadow-sm" />
+                        </td>
+                        <td class="fw-semibold">@item.Name</td>
+                        <td>@item.BrandName</td>
+                        <td>@item.CategoryName</td>
+                        <td>@item.Price.ToString("N2")</td>
+                        <td>
+                            @if (item.StockQuantity > 0)
+                            {
+                                <span class="badge bg-success px-3">
+                                    @item.StockQuantity
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger px-3">
+                                    Out of Stock
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-danger btn-sm">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-muted py-4">
+                        No products found.
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.Page ? "active" : "")">
+                    <a class="page-link page-link-ajax" data-page="@i">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

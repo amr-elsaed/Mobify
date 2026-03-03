@@ -1,6 +1,6 @@
-﻿namespace Mobify.DAL.Entities
+﻿namespace Mobify.BLL.ModelVM.ProductVM
 {
-    public class Product
+    public class ShowProductVM
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -14,13 +14,9 @@
         public string Color { get; set; }
         public string Storage { get; set; }
         public string RAM { get; set; }
-
-        // Navigation Property
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
-        public int BrandId { get; set; }
-        public Brand Brand { get; set; }
-        public List<ProductPhoto> ProductPhotos { get; set; } = new List<ProductPhoto>();
-        public List<ProductProperties> ProductProperties { get; set; } = new List<ProductProperties>();
+        public string CategoryName { get; set; }
+        public string BrandName { get; set; }
+        public string ProductPhotoURL { get; set; } 
+        public bool IsActive { get; set; }
     }
 }

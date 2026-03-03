@@ -24,6 +24,8 @@ namespace Mobify.PL
             builder.Services.AddScoped<ICategoryService, CategoryServices>();
             builder.Services.AddScoped<IBrandRepo, BrandRepo>();
             builder.Services.AddScoped<IBrandServices, BrandServices>();
+            builder.Services.AddScoped<IProductServices, ProductServices>();
+            builder.Services.AddScoped<IProductRepo, ProductRepo>();
             builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
             var app = builder.Build();
 

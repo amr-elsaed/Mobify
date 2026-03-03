@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Mobify.BLL.ModelVM.CategoryVM
+﻿namespace Mobify.BLL.ModelVM.CategoryVM
 {
     public class CategoryVM
     {

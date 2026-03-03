@@ -4,3 +4,8 @@ global using Mobify.BLL.ModelVM.ResponseResult;
 global using Mobify.BLL.ModelVM.CategoryVM;
 global using Mobify.BLL.Services.Abstraction;
 global using Microsoft.AspNetCore.Http;
+global using Mobify.BLL.ModelVM.BrandVM;
+global using System.ComponentModel.DataAnnotations;
+global using Mobify.BLL.Helper;
+global using Mobify.BLL.ModelVM.ProductVM;
+global using Microsoft.EntityFrameworkCore;

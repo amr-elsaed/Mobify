@@ -1,6 +1,4 @@
-﻿using Mobify.BLL.ModelVM.BrandVM;
-
-namespace Mobify.BLL.Services.Abstraction
+﻿namespace Mobify.BLL.Services.Abstraction
 {
     public interface IBrandServices
     {
