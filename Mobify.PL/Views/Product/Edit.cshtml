@@ -41,7 +41,7 @@
             <i class="bi bi-pencil-square me-2"></i>Edit Product
         </h4>
 
-        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <form asp-action="SaveEdit" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
             <input type="hidden" asp-for="Id" />
@@ -137,7 +137,7 @@
                     {
                         <div class="image-box text-center">
 
-                            <img src="~/BrandPhotoes/@Model.ExistingPhoto[i]" />
+                            <img src="~/ProductPhotoes/@Model.ExistingPhoto[i]" />
 
                             <div class="form-check mt-2">
                                 <input type="checkbox"
@@ -164,25 +164,47 @@
             <!-- Advantages -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Advantages</label>
-                @for (int i = 0; i < Model.AdvProperties.Count; i++)
-                {
-                    <input type="text"
-                           name="AdvProperties[@i]"
-                           value="@Model.AdvProperties[i]"
-                           class="form-control mb-2" />
-                }
+
+                <div id="advContainer">
+                    @for (int i = 0; i < Model.AdvProperties.Count; i++)
+                    {
+                        <div class="input-group mb-2">
+                            <input type="text"
+                                   name="AdvProperties[@i]"
+                                   value="@Model.AdvProperties[i]"
+                                   class="form-control"
+                                   placeholder="Enter advantage" />
+                            <button type="button" class="btn btn-danger remove-field">X</button>
+                        </div>
+                    }
+                </div>
+
+                <button type="button" class="btn btn-sm btn-outline-primary" id="addAdv">
+                    + Add Advantage
+                </button>
             </div>
 
             <!-- Disadvantages -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Disadvantages</label>
-                @for (int i = 0; i < Model.DisAdvProperties.Count; i++)
-                {
-                    <input type="text"
-                           name="DisAdvProperties[@i]"
-                           value="@Model.DisAdvProperties[i]"
-                           class="form-control mb-2" />
-                }
+
+                <div id="disAdvContainer">
+                    @for (int i = 0; i < Model.DisAdvProperties.Count; i++)
+                    {
+                        <div class="input-group mb-2">
+                            <input type="text"
+                                   name="DisAdvProperties[@i]"
+                                   value="@Model.DisAdvProperties[i]"
+                                   class="form-control"
+                                   placeholder="Enter disadvantage" />
+                            <button type="button" class="btn btn-danger remove-field">X</button>
+                        </div>
+                    }
+                </div>
+
+                <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="addDisAdv">
+                    + Add DisAdvantage
+                </button>
             </div>
 
             <!-- Buttons -->
@@ -232,5 +254,96 @@
                 });
             }
         });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            let advIndex = document.querySelectorAll("#advContainer input").length;
+            let disAdvIndex = document.querySelectorAll("#disAdvContainer input").length;
+
+            // =========================
+            // Add Advantage
+            // =========================
+            document.getElementById("addAdv").addEventListener("click", function () {
+
+                const container = document.getElementById("advContainer");
+
+                const div = document.createElement("div");
+                div.classList.add("input-group", "mb-2");
+
+                div.innerHTML = `
+                    <input type="text"
+                           name="AdvProperties[${advIndex}]"
+                           class="form-control"
+                           placeholder="Enter advantage" />
+                    <button type="button" class="btn btn-danger remove-field">X</button>
+                `;
+
+                container.appendChild(div);
+                advIndex++;
+            });
+
+
+            // =========================
+            // Add Disadvantage
+            // =========================
+            document.getElementById("addDisAdv").addEventListener("click", function () {
+
+                const container = document.getElementById("disAdvContainer");
+
+                const div = document.createElement("div");
+                div.classList.add("input-group", "mb-2");
+
+                div.innerHTML = `
+                    <input type="text"
+                           name="DisAdvProperties[${disAdvIndex}]"
+                           class="form-control"
+                           placeholder="Enter disadvantage" />
+                    <button type="button" class="btn btn-danger remove-field">X</button>
+                `;
+
+                container.appendChild(div);
+                disAdvIndex++;
+            });
+
+
+            // =========================
+            // Remove + Reindex
+            // =========================
+            document.addEventListener("click", function (e) {
+
+                if (e.target.classList.contains("remove-field")) {
+
+                    const group = e.target.closest(".input-group");
+
+                    if (!group) return;
+
+                    const container = group.parentElement;
+                    group.remove();
+
+                    if (container.id === "advContainer") {
+                        reindex(container, "AdvProperties");
+                        advIndex = container.querySelectorAll("input").length;
+                    }
+
+                    if (container.id === "disAdvContainer") {
+                        reindex(container, "DisAdvProperties");
+                        disAdvIndex = container.querySelectorAll("input").length;
+                    }
+                }
+            });
+
+
+            function reindex(container, prefix) {
+
+                const inputs = container.querySelectorAll("input");
+
+                inputs.forEach((input, index) => {
+                    input.name = `${prefix}[${index}]`;
+                });
+            }
+
+        });
+
     </script>
 }

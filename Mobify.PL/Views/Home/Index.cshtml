@@ -1,8 +1,535 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+}
+
+<!-- HERO / DEALS BANNER -->
+<section class="mb-5">
+    <div id="dealsBanner" class="p-4 rounded-4 bg-primary text-white position-relative overflow-hidden shadow-lg" data-end-hours="48">
+        <div class="row align-items-center position-relative z-1">
+            <div class="col-md-7 mb-4 mb-md-0">
+                <span class="badge bg-warning text-dark mb-2 px-3 py-2 rounded-pill fw-bold">Flash Sale</span>
+                <h1 class="display-5 fw-bold mb-3">Super Tech Deals!</h1>
+                <p class="lead mb-4 opacity-75">Up to 50% off on premium smartphones, tablets, and accessories. Offer ends soon.</p>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex flex-column align-items-center bg-white text-dark rounded-3 p-2 shadow-sm" style="min-width: 65px;">
+                        <span id="timerDays" class="fs-4 fw-bold text-primary">00</span>
+                        <span class="small text-muted fw-bold" style="font-size: 0.7rem;">Days</span>
+                    </div>
+                    <span class="fs-4 fw-bold">:</span>
+                    <div class="d-flex flex-column align-items-center bg-white text-dark rounded-3 p-2 shadow-sm" style="min-width: 65px;">
+                        <span id="timerHours" class="fs-4 fw-bold text-primary">00</span>
+                        <span class="small text-muted fw-bold" style="font-size: 0.7rem;">Hours</span>
+                    </div>
+                    <span class="fs-4 fw-bold">:</span>
+                    <div class="d-flex flex-column align-items-center bg-white text-dark rounded-3 p-2 shadow-sm" style="min-width: 65px;">
+                        <span id="timerMinutes" class="fs-4 fw-bold text-primary">00</span>
+                        <span class="small text-muted fw-bold" style="font-size: 0.7rem;">Mins</span>
+                    </div>
+                    <span class="fs-4 fw-bold">:</span>
+                    <div class="d-flex flex-column align-items-center bg-white text-dark rounded-3 p-2 shadow-sm" style="min-width: 65px;">
+                        <span id="timerSeconds" class="fs-4 fw-bold text-primary">00</span>
+                        <span class="small text-muted fw-bold" style="font-size: 0.7rem;">Secs</span>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-light btn-lg mt-4 fw-bold px-4 rounded-pill text-primary shadow-sm hover-lift">Shop Deals Now <i class="bi bi-arrow-right ms-2"></i></a>
+            </div>
+            <div class="col-md-5 text-center">
+                <!-- Placeholder Image -->
+                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800&auto=format&fit=crop" alt="Deals" class="img-fluid rounded-4 shadow-lg transform-hover" style="max-height: 300px; object-fit: cover;" />
+            </div>
+        </div>
+        <!-- Decorative bg circle -->
+        <div class="position-absolute top-0 end-0 translate-middle text-white opacity-10" style="font-size: 40rem; line-height: 1; z-index: 0; pointer-events: none;">
+            <i class="bi bi-tag-fill"></i>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORY STRIP -->
+<section class="category-strip mb-5">
+    <div class="section-header">
+        <h2 class="section-title"><i class="bi bi-grid-fill"></i> Shop by Category</h2>
+        <a href="#" class="text-decoration-none text-primary fw-bold small">View All <i class="bi bi-chevron-right"></i></a>
+    </div>
+    <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 g-3">
+        <div class="col">
+            <a href="#" class="category-card">
+                <div class="category-card__icon category-icon--smartphones">
+                    <i class="bi bi-phone"></i>
+                </div>
+                <span>Smartphones</span>
+            </a>
+        </div>
+        <div class="col">
+            <a href="#" class="category-card">
+                <div class="category-card__icon category-icon--tablets">
+                    <i class="bi bi-tablet"></i>
+                </div>
+                <span>Tablets</span>
+            </a>
+        </div>
+        <div class="col">
+            <a href="#" class="category-card">
+                <div class="category-card__icon category-icon--audio">
+                    <i class="bi bi-earbuds"></i>
+                </div>
+                <span>Audio</span>
+            </a>
+        </div>
+        <div class="col">
+            <a href="#" class="category-card">
+                <div class="category-card__icon category-icon--watches">
+                    <i class="bi bi-smartwatch"></i>
+                </div>
+                <span>Wearables</span>
+            </a>
+        </div>
+        <div class="col">
+            <a href="#" class="category-card">
+                <div class="category-card__icon category-icon--chargers">
+                    <i class="bi bi-lightning-charge"></i>
+                </div>
+                <span>Chargers</span>
+            </a>
+        </div>
+        <div class="col">
+            <a href="#" class="category-card">
+                <div class="category-card__icon category-icon--cases">
+                    <i class="bi bi-phone-flip"></i>
+                </div>
+                <span>Accessories</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- MAIN CONTENT (Sidebar + Products Grid) -->
+<div class="row g-4 mb-5">
+    <!-- FILTERS SIDEBAR -->
+    <aside class="col-lg-3">
+        <div class="bg-surface rounded-4 p-4 shadow-sm border border-light sticky-top" style="top: 80px; z-index: 10;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0 text-secondary"><i class="bi bi-funnel-fill text-primary me-2"></i> Filters</h5>
+                <button type="button" class="btn-clear-filters btn-sm" id="clearFiltersBtn">
+                    <i class="bi bi-arrow-counterclockwise"></i> Clear
+                </button>
+            </div>
+
+            <hr class="border-secondary opacity-10 mb-4">
+
+            <!-- Price Range -->
+            <div class="mb-4">
+                <h6 class="fw-bold mb-3 text-secondary">Price Range</h6>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <input type="number" class="form-control form-control-sm text-center" placeholder="Min" min="0">
+                    <span class="text-muted">-</span>
+                    <input type="number" class="form-control form-control-sm text-center" placeholder="Max" min="0">
+                </div>
+                <input type="range" class="form-range" id="priceRange" min="0" max="2000" step="50">
+                <div class="d-flex justify-content-between text-muted small mt-1">
+                    <span>$0</span>
+                    <span>$2000+</span>
+                </div>
+            </div>
+
+            <hr class="border-secondary opacity-10 mb-4">
+
+            <!-- Brands Filter -->
+            <div class="mb-4 brand-filter">
+                <h6 class="fw-bold mb-3 text-secondary">Brands</h6>
+                <div class="form-check mb-2 custom-check">
+                    <input class="form-check-input" type="checkbox" value="apple" id="brandApple">
+                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandApple">
+                        <span>Apple</span> <span class="badge bg-light text-secondary rounded-pill">42</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 custom-check">
+                    <input class="form-check-input" type="checkbox" value="samsung" id="brandSamsung">
+                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandSamsung">
+                        <span>Samsung</span> <span class="badge bg-light text-secondary rounded-pill">38</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 custom-check">
+                    <input class="form-check-input" type="checkbox" value="google" id="brandGoogle">
+                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandGoogle">
+                        <span>Google</span> <span class="badge bg-light text-secondary rounded-pill">15</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2 custom-check">
+                    <input class="form-check-input" type="checkbox" value="sony" id="brandSony">
+                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandSony">
+                        <span>Sony</span> <span class="badge bg-light text-secondary rounded-pill">24</span>
+                    </label>
+                </div>
+                <div class="form-check custom-check">
+                    <input class="form-check-input" type="checkbox" value="xiaomi" id="brandXiaomi">
+                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandXiaomi">
+                        <span>Xiaomi</span> <span class="badge bg-light text-secondary rounded-pill">19</span>
+                    </label>
+                </div>
+            </div>
+
+            <hr class="border-secondary opacity-10 mb-4">
+
+            <!-- Rating Filter -->
+            <div class="mb-4 rating-filter">
+                <h6 class="fw-bold mb-3 text-secondary">Customer Rating</h6>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="ratingRadio" id="rating4" value="4">
+                    <label class="form-check-label text-warning" for="rating4">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star text-muted"></i> & Up
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="ratingRadio" id="rating3" value="3">
+                    <label class="form-check-label text-warning" for="rating3">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star text-muted"></i><i class="bi bi-star text-muted"></i> & Up
+                    </label>
+                </div>
+            </div>
+
+            <!-- Apply Button -->
+            <button class="btn btn-apply-filters w-100 py-2 mt-2 shadow-sm" id="applyFiltersBtn">
+                Apply Filters
+            </button>
+        </div>
+    </aside>
+
+    <!-- PRODUCTS MAIN AREA -->
+    <div class="col-lg-9">
+        <!-- Toolbar: Sort and View Options -->
+        <div class="bg-surface rounded-4 p-3 mb-4 shadow-sm border border-light d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <p class="mb-0 text-muted fw-bold">Showing <span class="text-primary">1-12</span> of 124 products</p>
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <label for="sortSelect" class="text-muted fw-bold text-nowrap mb-0 small">Sort By:</label>
+                    <select class="form-select form-select-sm border-light shadow-none fw-bold text-secondary" id="sortSelect" style="width: auto; min-width: 150px;">
+                        <option value="featured">Featured</option>
+                        <option value="newest">Newest Arrivals</option>
+                        <option value="price_asc">Price: Low to High</option>
+                        <option value="price_desc">Price: High to Low</option>
+                        <option value="rating">Top Rated</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5" id="productsGrid">
+            
+            <!-- Product Item 1 -->
+            <div class="col">
+                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
+                    <div class="position-absolute top-0 end-0 m-3 z-2">
+                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
+                    </div>
+                    <span class="badge bg-danger position-absolute top-0 start-0 m-3 z-2 px-2 py-1">-15%</span>
+                    
+                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1592899677974-c464095116ba?q=80&w=400&auto=format&fit=crop" alt="iPhone 15 Pro" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                    </a>
+                    
+                    <div class="card-body pt-0 d-flex flex-column">
+                        <div class="mb-2">
+                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Apple</span>
+                        </div>
+                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
+                            <a href="#" class="text-secondary text-decoration-none">iPhone 15 Pro Max 256GB</a>
+                        </h5>
+                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                            <span class="text-muted ms-1">(128)</span>
+                        </div>
+                        <div class="mt-auto d-flex justify-content-between align-items-end">
+                            <div>
+                                <span class="text-muted text-decoration-line-through small me-1">$1,199</span>
+                                <span class="fs-5 fw-bold text-primary">$1,019</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
+                                <i class="bi bi-cart-plus fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Item 2 -->
+            <div class="col">
+                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
+                    <div class="position-absolute top-0 end-0 m-3 z-2">
+                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
+                    </div>
+                    
+                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?q=80&w=400&auto=format&fit=crop" alt="Samsung Galaxy S24" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                    </a>
+                    
+                    <div class="card-body pt-0 d-flex flex-column">
+                        <div class="mb-2">
+                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Samsung</span>
+                        </div>
+                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
+                            <a href="#" class="text-secondary text-decoration-none">Galaxy S24 Ultra 512GB</a>
+                        </h5>
+                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            <span class="text-muted ms-1">(96)</span>
+                        </div>
+                        <div class="mt-auto d-flex justify-content-between align-items-end">
+                            <div>
+                                <span class="fs-5 fw-bold text-primary">$1,299</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
+                                <i class="bi bi-cart-plus fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Item 3 -->
+            <div class="col">
+                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
+                    <div class="position-absolute top-0 end-0 m-3 z-2">
+                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart-fill"></i></button>
+                    </div>
+                    <span class="badge bg-primary position-absolute top-0 start-0 m-3 z-2 px-2 py-1">New</span>
+                    
+                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=400&auto=format&fit=crop" alt="Apple Watch Series 9" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                    </a>
+                    
+                    <div class="card-body pt-0 d-flex flex-column">
+                        <div class="mb-2">
+                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Apple</span>
+                        </div>
+                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
+                            <a href="#" class="text-secondary text-decoration-none">Watch Series 9 GPS 45mm</a>
+                        </h5>
+                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star text-muted"></i>
+                            <span class="text-muted ms-1">(45)</span>
+                        </div>
+                        <div class="mt-auto d-flex justify-content-between align-items-end">
+                            <div>
+                                <span class="fs-5 fw-bold text-primary">$429</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
+                                <i class="bi bi-cart-plus fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Item 4 -->
+            <div class="col">
+                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
+                    <div class="position-absolute top-0 end-0 m-3 z-2">
+                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
+                    </div>
+                    
+                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1606220588913-b3aacb4b2f46?q=80&w=400&auto=format&fit=crop" alt="Sony Headphones" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                    </a>
+                    
+                    <div class="card-body pt-0 d-flex flex-column">
+                        <div class="mb-2">
+                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Sony</span>
+                        </div>
+                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
+                            <a href="#" class="text-secondary text-decoration-none">WH-1000XM5 Wireless Noise Canceling</a>
+                        </h5>
+                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                            <span class="text-muted ms-1">(210)</span>
+                        </div>
+                        <div class="mt-auto d-flex justify-content-between align-items-end">
+                            <div>
+                                <span class="fs-5 fw-bold text-primary">$398</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
+                                <i class="bi bi-cart-plus fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Item 5 -->
+            <div class="col">
+                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
+                    <div class="position-absolute top-0 end-0 m-3 z-2">
+                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
+                    </div>
+                    <span class="badge bg-dark position-absolute top-0 start-0 m-3 z-2 px-2 py-1">Limited</span>
+                    
+                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=400&auto=format&fit=crop" alt="Dell XPS 15" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                    </a>
+                    
+                    <div class="card-body pt-0 d-flex flex-column">
+                        <div class="mb-2">
+                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Dell</span>
+                        </div>
+                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
+                            <a href="#" class="text-secondary text-decoration-none">XPS 15 Laptop 32GB RAM 1TB SSD</a>
+                        </h5>
+                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            <span class="text-muted ms-1">(89)</span>
+                        </div>
+                        <div class="mt-auto d-flex justify-content-between align-items-end">
+                            <div>
+                                <span class="fs-5 fw-bold text-primary">$1,899</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
+                                <i class="bi bi-cart-plus fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Item 6 -->
+            <div class="col">
+                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
+                    <div class="position-absolute top-0 end-0 m-3 z-2">
+                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
+                    </div>
+                    
+                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=400&auto=format&fit=crop" alt="AirPods Pro 2" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                    </a>
+                    
+                    <div class="card-body pt-0 d-flex flex-column">
+                        <div class="mb-2">
+                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Apple</span>
+                        </div>
+                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
+                            <a href="#" class="text-secondary text-decoration-none">AirPods Pro (2nd Generation)</a>
+                        </h5>
+                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                            <span class="text-muted ms-1">(450)</span>
+                        </div>
+                        <div class="mt-auto d-flex justify-content-between align-items-end">
+                            <div>
+                                <span class="fs-5 fw-bold text-primary">$249</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
+                                <i class="bi bi-cart-plus fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- /.row -->
+
+        <!-- Pagination -->
+        <nav aria-label="Product pagination" class="d-flex justify-content-center mt-5">
+            <ul class="pagination pagination-md shadow-sm">
+                <li class="page-item disabled">
+                    <a class="page-link border-light text-muted" href="#" tabindex="-1" aria-disabled="true"><i class="bi bi-chevron-left"></i></a>
+                </li>
+                <li class="page-item active" aria-current="page"><a class="page-link bg-primary border-primary text-white" href="#">1</a></li>
+                <li class="page-item"><a class="page-link border-light text-secondary" href="#">2</a></li>
+                <li class="page-item"><a class="page-link border-light text-secondary" href="#">3</a></li>
+                <li class="page-item"><a class="page-link border-light text-secondary" href="#">...</a></li>
+                <li class="page-item"><a class="page-link border-light text-secondary" href="#">11</a></li>
+                <li class="page-item">
+                    <a class="page-link border-light text-primary" href="#"><i class="bi bi-chevron-right"></i></a>
+                </li>
+            </ul>
+        </nav>
+        
+    </div>
 </div>
+
+<!-- TOP BRANDS STRIP -->
+<section class="brand-strip py-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+         <h5 class="fw-bold text-secondary mb-0">Top Brands</h5>
+    </div>
+    <div class="brand-logos-row">
+        <a href="#" class="brand-logo-item">
+            <i class="bi bi-apple"></i>
+            Apple
+        </a>
+        <a href="#" class="brand-logo-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Samsung_wordmark.svg" height="15" alt="Samsung" style="filter: grayscale(100%) opacity(0.7);" onmouseover="this.style.filter='grayscale(0%) opacity(1)'" onmouseout="this.style.filter='grayscale(100%) opacity(0.7)'" />
+            <span class="mt-1">Samsung</span>
+        </a>
+        <a href="#" class="brand-logo-item">
+            <i class="bi bi-google"></i>
+            Google
+        </a>
+        <a href="#" class="brand-logo-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Sony_logo.svg" height="15" alt="Sony" style="filter: grayscale(100%) opacity(0.7);" onmouseover="this.style.filter='grayscale(0%) opacity(1)'" onmouseout="this.style.filter='grayscale(100%) opacity(0.7)'" />
+            <span class="mt-1">Sony</span>
+        </a>
+        <a href="#" class="brand-logo-item">
+            <i class="bi bi-microsoft"></i>
+            Microsoft
+        </a>
+        <a href="#" class="brand-logo-item">
+            <i class="bi bi-xbox"></i>
+            Xbox
+        </a>
+        <a href="#" class="brand-logo-item">
+            <i class="bi bi-playstation"></i>
+            PlayStation
+        </a>
+    </div>
+</section>
+
+<!-- NEWSLETTER SECTION -->
+<section class="mb-5">
+    <div class="bg-primary text-white rounded-5 p-5 position-relative overflow-hidden shadow-sm">
+        <div class="row align-items-center position-relative z-1">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h3 class="fw-bold mb-2">Join Our Newsletter</h3>
+                <p class="opacity-75 mb-0">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+            </div>
+            <div class="col-md-6">
+                <form id="newsletterForm" class="d-flex bg-white rounded-pill p-1 shadow-sm mx-auto" style="max-width: 450px;">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-0 text-muted ps-3">
+                            <i class="bi bi-envelope"></i>
+                        </span>
+                        <input type="email" id="newsletterEmail" class="form-control border-0 shadow-none ps-2 py-3" placeholder="Enter your email" required>
+                        <button class="btn btn-primary rounded-pill px-4 m-1 fw-bold" type="submit">Subscribe</button>
+                    </div>
+                </form>
+                <div id="newsletterMsg" class="text-center mt-2 small fw-bold" style="min-height: 20px;"></div>
+            </div>
+        </div>
+        <div class="position-absolute bottom-0 start-0 translate-middle-y text-white opacity-10" style="font-size: 25rem; left: -5%; z-index: 0; pointer-events: none;">
+            <i class="bi bi-mailbox"></i>
+        </div>
+    </div>
+</section>
+
+<!-- CART TOAST -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+  <div id="cartToast" class="toast hide shadow" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-surface border-bottom border-light">
+      <i class="bi bi-check-circle-fill text-success me-2 fs-5"></i>
+      <strong class="me-auto text-secondary">Cart Updated</strong>
+      <small class="text-muted">Just now</small>
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body bg-white text-muted fw-bold">
+      Item successfully added to your cart!
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/home.js" asp-append-version="true"></script>
+}

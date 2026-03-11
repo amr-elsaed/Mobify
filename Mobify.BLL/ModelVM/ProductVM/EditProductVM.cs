@@ -17,8 +17,8 @@
         public int CategoryId { get; set; }
         public int BrandId { get; set; }
         public List<string> ExistingPhoto { get; set; } = new List<string>();
-        public List<IFormFile> FormFiles { get; set; } = new List<IFormFile>();
-        public List<string> ProductNewPhotoes { get; set; } = new List<string>();
+        public List<IFormFile> ?FormFiles { get; set; } = new List<IFormFile>();
+        public List<string> PhotoesToDelete { get; set; } = new List<string>();
         public List<string> AdvProperties { get; set; } = new List<string>();
         public List<string> DisAdvProperties { get; set; } = new List<string>();
     }

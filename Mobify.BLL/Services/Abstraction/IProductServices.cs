@@ -7,5 +7,7 @@ namespace Mobify.BLL.Services.Abstraction
         public Task<Response<bool>> Add(AddProductVM vm);
         public Task<Response<EditProductVM>> GetForEdit(int Id);
         public Task<PagedResult<ShowProductVM>> GetAll(ProductQueryVM vm);
+        public Task<Response<bool>> Delete(int Id);
+        public Task<Response<string>> SaveEdit(EditProductVM vm);
     }
 }

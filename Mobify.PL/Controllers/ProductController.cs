@@ -59,7 +59,7 @@ namespace Mobify.PL.Controllers
             return View(vm);
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Edit(int Id)
         {
             var res = await services.GetForEdit(Id);
@@ -70,11 +70,34 @@ namespace Mobify.PL.Controllers
             return View(res.result);
         }
         [HttpPost]
-        public async Task<IActionResult> SaveEdit()
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveEdit(EditProductVM vm)
         {
-            
-            return View();
+            if (ModelState.IsValid)
+            {
+                await services.SaveEdit(vm);
+                return RedirectToAction(nameof(Index));
+            }
 
+            var categories = await categoryServices.GetAll();
+            ViewBag.Categories = categories.result;
+
+            var brands = await brandServices.GetAll();
+            ViewBag.Brands = brands.result;
+
+            return View("Edit", vm);
+        }
+        
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var res = await services.Delete(id);
+            if (!res.IsHasErrorOrNot)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return NotFound();
         }
     }
 }
