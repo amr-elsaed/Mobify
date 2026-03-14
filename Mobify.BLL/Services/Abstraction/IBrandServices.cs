@@ -1,4 +1,6 @@
-﻿namespace Mobify.BLL.Services.Abstraction
+﻿using Mobify.BLL.ModelVM.HomePageVM;
+
+namespace Mobify.BLL.Services.Abstraction
 {
     public interface IBrandServices
     {
@@ -7,6 +9,7 @@
         public Task<Response<string>> Delete(int Id);
         public Task<Response<ShowBrandVM>> GetById(int Id);
         public Task<Response<EditBrandVM>> GetByIdForEdit(int Id);
-        public Task<Response<string>>SaveUpdate(EditBrandVM vm);
+        public Task<Response<string>> SaveUpdate(EditBrandVM vm);
+        public Task<Response<List<BrandAndCountOfProduct>>> GetBrandsAndCountOfProduct();
     }
 }

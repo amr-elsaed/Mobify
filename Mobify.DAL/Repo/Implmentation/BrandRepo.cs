@@ -1,5 +1,6 @@
 ﻿using Mobify.DAL.DataBase.DBContext;
 using Mobify.DAL.Repo.Abstraction;
+using System.Linq;
 
 namespace Mobify.DAL.Repo.Implmentation
 {
@@ -115,5 +116,10 @@ namespace Mobify.DAL.Repo.Implmentation
             }
         }
 
+        public IQueryable<Brand> Query()
+        {
+            return context.Brands;
+        }
+    
     }
 }

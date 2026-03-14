@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Mobify.BLL.ModelVM.HomePageVM;
 using Mobify.BLL.Services.Abstraction;
-
 
 namespace Mobify.BLL.Services.Implmentation
 {
@@ -79,6 +79,17 @@ namespace Mobify.BLL.Services.Implmentation
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<Response<List<CategoryAndCountOfProduct>>> GetCategoryAndCountOfProduct()
+        {
+            var res = await repo.Query().Select(x => new CategoryAndCountOfProduct()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                CountOfProduct = x.Products.Count()
+            }).ToListAsync();
+            return new Response<List<CategoryAndCountOfProduct>>(res, null, false);
         }
 
         public async Task<Response<string>> Update(int id, CategoryVM vm)

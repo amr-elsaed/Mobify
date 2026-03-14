@@ -1,0 +1,127 @@
+﻿<!-- Products Card -->
+
+
+<div class="row g-4">
+
+    @foreach (var item in Model.ProductsCardVM)
+    {
+        <div class="col-6 col-md-4 col-xl-3">
+            <div class="product-card">
+
+                <!-- Offer Badge -->
+                @if (item.HasOffer)
+                {
+                    <div class="product-card__badges">
+                        <span class="badge-sale">@item.OfferAsPrecentage%</span>
+                    </div>
+                }
+
+                <button class="product-card__wishlist" aria-label="Add to wishlist">
+                    <i class="bi bi-heart"></i>
+                </button>
+
+                <!-- Product Image -->
+                <div class="product-card__imagee">
+                    <img src="~/ProductPhotoes/@item.PhotoURL"
+                         alt="@item.PtoductName"
+                         loading="lazy"
+                         class="img-fluid product-img">
+                </div>
+
+                <div class="product-card__body">
+
+                    <span class="product-brand">@item.BrandName</span>
+
+                    <h6 class="product-name">
+                        <a asp-controller="Product"
+                           asp-action="Details"
+                           asp-route-id="@item.Id">
+                            @item.PtoductName
+                        </a>
+                    </h6>
+
+                    <!-- Category Name -->
+                    <div class="product-category">
+                        <i class="bi bi-tag"></i> @item.CategoryName
+                    </div>
+
+                    <!-- Specs -->
+                    <div class="product-specs">
+                        <span><i class="bi bi-cpu"></i> @item.CPU</span>
+                        <span><i class="bi bi-memory"></i> @item.RAM</span>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="product-price">
+
+                        @if (item.HasOffer)
+                        {
+                            <span class="current-price">$@item.OfferPrice</span>
+                            <span class="original-price text-decoration-line-through">$@item.OriginalPrice</span>
+                        }
+                        else
+                        {
+                            <span class="current-price">$@item.OriginalPrice</span>
+                        }
+
+                    </div>
+
+                    <!-- Cart Button -->
+                    <button class="btn btn-add-cart w-100">
+                        <i class="bi bi-cart-plus"></i> Add to Cart
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- Pagination -->
+<nav class="pagination-wrapper">
+    <ul class="pagination">
+
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link"
+                   href="?ProductCardQueryVM.Page=@(ViewBag.CurrentPage - 1)">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+        }
+
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+
+                <a class="page-link"
+                   href="?ProductCardQueryVM.Page=@i">
+                    @i
+                </a>
+
+            </li>
+        }
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link"
+                   href="?ProductCardQueryVM.Page=@(ViewBag.CurrentPage + 1)">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+        }
+
+    </ul>
+</nav>

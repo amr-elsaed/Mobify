@@ -3,6 +3,7 @@ using Mobify.BLL.ModelVM.ProductVM;
 using Mobify.BLL.ModelVM.ResponseResult;
 using Mobify.BLL.Services.Abstraction;
 using Mobify.BLL.Services.Implmentation;
+using Mobify.DAL.Entities;
 using System.Threading.Tasks;
 
 namespace Mobify.PL.Controllers
@@ -98,6 +99,17 @@ namespace Mobify.PL.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return NotFound();
+        }
+      
+        public async Task<IActionResult> UpdateOffer(int ProductId)
+        {
+            var res = await services.GetProductOffer(ProductId);
+            return View(res.result);
+        }
+        public async Task<IActionResult> SaveUpdateOfferAsync(ProductOfferVM vm)
+        {
+            await services.UpdateOffer(vm);
+            return RedirectToAction("Index");
         }
     }
 }

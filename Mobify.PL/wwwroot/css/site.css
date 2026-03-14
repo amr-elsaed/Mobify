@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -66,6 +66,15 @@ body {
 .admin-card-body {
   padding: 0;
 }
+
+.sidebar-categories li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
 
 /* Card Footer */
 .admin-card-footer {
@@ -273,4 +282,29 @@ body {
 
 .admin-table tbody tr:nth-child(10) {
   animation-delay: 0.5s;
+}
+
+
+
+/* Sidebar Section Label */
+.sidebar-section {
+    margin-bottom: 1.75rem;
+}
+
+.sidebar-section__label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9ca3af;        /* muted gray — adjust to your palette */
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.sidebar-section__label i {
+    font-size: 0.75rem;
 }

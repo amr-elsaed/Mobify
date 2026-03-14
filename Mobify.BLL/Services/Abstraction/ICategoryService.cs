@@ -1,4 +1,6 @@
-﻿namespace Mobify.BLL.Services.Abstraction
+﻿using Mobify.BLL.ModelVM.HomePageVM;
+
+namespace Mobify.BLL.Services.Abstraction
 {
     public interface ICategoryService
     {
@@ -7,5 +9,6 @@
         public Task<Response<string>> Delete(int id);
         public Task<Response<List<CategoryVM>>> GetAll();
         public Task<Response<CategoryVM>> GetById(int id);
+        public Task<Response<List<CategoryAndCountOfProduct>>> GetCategoryAndCountOfProduct();
     }
 }

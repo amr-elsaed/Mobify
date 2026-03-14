@@ -27,6 +27,7 @@ namespace Mobify.PL
             builder.Services.AddScoped<IProductServices, ProductServices>();
             builder.Services.AddScoped<IProductRepo, ProductRepo>();
             builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
+            builder.Services.AddScoped<IHomePageServices, HomePageServices>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

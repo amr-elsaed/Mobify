@@ -109,5 +109,9 @@ namespace Mobify.DAL.Repo.Implmentation
             }
         }
 
+        public IQueryable<Category> Query()
+        {
+            return context.Categories;
+        }
     }
 }

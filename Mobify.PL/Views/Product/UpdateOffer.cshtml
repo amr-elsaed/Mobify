@@ -1,0 +1,99 @@
+﻿@model Mobify.BLL.ModelVM.ProductVM.ProductOfferVM
+
+@{
+    ViewData["Title"] = "Add Product Offer";
+}
+
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-semibold mb-0">Add Offer To Product</h3>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Back To List
+        </a>
+    </div>
+
+    <!-- Form -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form asp-action="SaveUpdateOffer" method="post">
+
+                <input type="hidden" asp-for="ProductId" />
+
+                <!-- Has Offer -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           asp-for="HasOffer"
+                           id="hasOfferCheck">
+
+                    <label class="form-check-label fw-semibold" for="hasOfferCheck">
+                        Product Has Offer
+                    </label>
+                </div>
+
+                <!-- New Price -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Offer Price
+                    </label>
+
+                    <input asp-for="NewPrice"
+                           class="form-control"
+                           placeholder="Enter new price..." />
+
+                    <span asp-validation-for="NewPrice" class="text-danger"></span>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex gap-2 mt-4">
+
+                    <button type="submit" class="btn btn-success">
+                        Save Offer
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const check = document.getElementById("hasOfferCheck");
+
+        const priceInput = document.querySelector("[name='NewPrice']");
+        const dateInput = document.querySelector("[name='EndOfOffer']");
+
+        function toggleOfferFields() {
+
+            if(check.checked){
+                priceInput.removeAttribute("disabled");
+                dateInput.removeAttribute("disabled");
+            }
+            else{
+                priceInput.setAttribute("disabled", true);
+                dateInput.setAttribute("disabled", true);
+            }
+        }
+
+        check.addEventListener("change", toggleOfferFields);
+
+        toggleOfferFields();
+
+    </script>
+}

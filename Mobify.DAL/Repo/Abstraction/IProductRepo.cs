@@ -10,5 +10,7 @@
         public Task Add(Product product);
         public Task Update(Product product);
         public Task Delete(int Id);
+        public Task UpdateOffer(ProductOffer productOffer);
+        public Task<ProductOffer> GetOffer(int Id);
     }
 }

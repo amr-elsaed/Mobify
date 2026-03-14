@@ -10,5 +10,6 @@ namespace Mobify.DAL.Repo.Abstraction
         Task<bool> Delete(int id);
         Task<Category?> GetById(int id);
         Task<Category?> GetByName(string name);
+        public IQueryable<Category> Query();
     }
 }

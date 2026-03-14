@@ -48,6 +48,13 @@
                         </td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
+                                <form asp-action="UpdateOffer" asp-route-ProductId="@item.Id" method="post" class="d-inline">
+                                    <input type="hidden" name="Price" value="@item.Price" />
+                                    <button type="submit" class="btn btn-dark btn-sm">
+                                        Offers
+                                    </button>
+                                </form>
+
                                 <form asp-action="Edit" asp-route-Id="@item.Id" method="post" class="d-inline">
                                     <button type="submit" class="btn btn-warning btn-sm">
                                         Edit
@@ -59,6 +66,7 @@
                                         Delete
                                     </button>
                                 </form>
+  
                             </div>
                         </td>
                     </tr>

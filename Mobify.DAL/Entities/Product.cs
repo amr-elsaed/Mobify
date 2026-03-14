@@ -14,6 +14,7 @@
         public string Color { get; set; }
         public string Storage { get; set; }
         public string RAM { get; set; }
+        
 
         // Navigation Property
         public int CategoryId { get; set; }
@@ -22,5 +23,7 @@
         public Brand Brand { get; set; }
         public List<ProductPhoto> ProductPhotos { get; set; } = new List<ProductPhoto>();
         public List<ProductProperties> ProductProperties { get; set; } = new List<ProductProperties>();
+        public ProductOffer productOffer { get; set; }
+
     }
 }

@@ -73,5 +73,26 @@ namespace Mobify.DAL.Repo.Implmentation
         {
             return context.Products;
         }
+
+        public async Task UpdateOffer(ProductOffer productOffer)
+        {
+            var offer = await context.ProductOffers.FirstOrDefaultAsync(x => x.ProductId == productOffer.ProductId);
+
+            if (offer == null)
+            {
+                context.ProductOffers.Add(productOffer);
+            }
+            else
+            {
+                context.Entry(offer).CurrentValues.SetValues(productOffer);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<ProductOffer> GetOffer(int Id)
+        {
+            return await context.ProductOffers.FirstOrDefaultAsync(x=>x.ProductId ==  Id);    
+        }
     }
 }

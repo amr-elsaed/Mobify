@@ -1,5 +1,6 @@
 ﻿using Mobify.BLL.Helper;
 using Mobify.BLL.ModelVM.BrandVM;
+using Mobify.BLL.ModelVM.HomePageVM;
 
 namespace Mobify.BLL.Services.Implmentation
 {
@@ -62,6 +63,17 @@ namespace Mobify.BLL.Services.Implmentation
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<Response<List<BrandAndCountOfProduct>>> GetBrandsAndCountOfProduct()
+        {
+            var res =await repo.Query().Select(x => new BrandAndCountOfProduct()
+            {
+                Id = x.Id,
+                BrandName = x.Name,
+                NumberOfProduct = x.Products.Count()
+            }).ToListAsync();
+            return new Response<List<BrandAndCountOfProduct>>(res,null,false);
         }
 
         public async Task<Response<ShowBrandVM>> GetById(int Id)

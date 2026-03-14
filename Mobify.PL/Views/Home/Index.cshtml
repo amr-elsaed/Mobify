@@ -1,535 +1,785 @@
+﻿        @using Mobify.BLL.ModelVM.HomePageVM
 @{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
 }
+@model AllHomePageComponent
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobify — Mobile Phones, Tablets &amp; Accessories</title>
+    <meta name="description" content="Mobify: Your one-stop destination for detailed mobile phone specs, tablets, accessories, and the best deals. Browse, compare, and shop with confidence.">
 
-@section Styles {
-    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-}
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
 
-<!-- HERO / DEALS BANNER -->
-<section class="mb-5">
-    <div id="dealsBanner" class="p-4 rounded-4 bg-primary text-white position-relative overflow-hidden shadow-lg" data-end-hours="48">
-        <div class="row align-items-center position-relative z-1">
-            <div class="col-md-7 mb-4 mb-md-0">
-                <span class="badge bg-warning text-dark mb-2 px-3 py-2 rounded-pill fw-bold">Flash Sale</span>
-                <h1 class="display-5 fw-bold mb-3">Super Tech Deals!</h1>
-                <p class="lead mb-4 opacity-75">Up to 50% off on premium smartphones, tablets, and accessories. Offer ends soon.</p>
-                <div class="d-flex align-items-center gap-3">
-                    <div class="d-flex flex-column align-items-center bg-white text-dark rounded-3 p-2 shadow-sm" style="min-width: 65px;">
-                        <span id="timerDays" class="fs-4 fw-bold text-primary">00</span>
-                        <span class="small text-muted fw-bold" style="font-size: 0.7rem;">Days</span>
-                    </div>
-                    <span class="fs-4 fw-bold">:</span>
-                    <div class="d-flex flex-column align-items-center bg-white text-dark rounded-3 p-2 shadow-sm" style="min-width: 65px;">
-                        <span id="timerHours" class="fs-4 fw-bold text-primary">00</span>
-                        <span class="small text-muted fw-bold" style="font-size: 0.7rem;">Hours</span>
-                    </div>
-                    <span class="fs-4 fw-bold">:</span>
-                    <div class="d-flex flex-column align-items-center bg-white text-dark rounded-3 p-2 shadow-sm" style="min-width: 65px;">
-                        <span id="timerMinutes" class="fs-4 fw-bold text-primary">00</span>
-                        <span class="small text-muted fw-bold" style="font-size: 0.7rem;">Mins</span>
-                    </div>
-                    <span class="fs-4 fw-bold">:</span>
-                    <div class="d-flex flex-column align-items-center bg-white text-dark rounded-3 p-2 shadow-sm" style="min-width: 65px;">
-                        <span id="timerSeconds" class="fs-4 fw-bold text-primary">00</span>
-                        <span class="small text-muted fw-bold" style="font-size: 0.7rem;">Secs</span>
-                    </div>
-                </div>
-                <a href="#" class="btn btn-light btn-lg mt-4 fw-bold px-4 rounded-pill text-primary shadow-sm hover-lift">Shop Deals Now <i class="bi bi-arrow-right ms-2"></i></a>
-            </div>
-            <div class="col-md-5 text-center">
-                <!-- Placeholder Image -->
-                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800&auto=format&fit=crop" alt="Deals" class="img-fluid rounded-4 shadow-lg transform-hover" style="max-height: 300px; object-fit: cover;" />
+    <!-- ═══════════════════════ TOP BAR ═══════════════════════ -->
+    <div class="top-bar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span class="top-bar__promo">
+                <i class="bi bi-lightning-charge-fill"></i>
+                Free shipping on orders over $99 — <a href="#">Shop Now</a>
+            </span>
+            <div class="top-bar__links d-none d-md-flex">
+                <a href="#"><i class="bi bi-geo-alt"></i> Track Order</a>
+                <a href="#"><i class="bi bi-question-circle"></i> Help Center</a>
+                <a href="#"><i class="bi bi-globe"></i> EN</a>
             </div>
         </div>
-        <!-- Decorative bg circle -->
-        <div class="position-absolute top-0 end-0 translate-middle text-white opacity-10" style="font-size: 40rem; line-height: 1; z-index: 0; pointer-events: none;">
-            <i class="bi bi-tag-fill"></i>
-        </div>
     </div>
-</section>
 
-<!-- CATEGORY STRIP -->
-<section class="category-strip mb-5">
-    <div class="section-header">
-        <h2 class="section-title"><i class="bi bi-grid-fill"></i> Shop by Category</h2>
-        <a href="#" class="text-decoration-none text-primary fw-bold small">View All <i class="bi bi-chevron-right"></i></a>
-    </div>
-    <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 g-3">
-        <div class="col">
-            <a href="#" class="category-card">
-                <div class="category-card__icon category-icon--smartphones">
-                    <i class="bi bi-phone"></i>
-                </div>
-                <span>Smartphones</span>
+    <!-- ═══════════════════════ HEADER ═══════════════════════ -->
+    <header class="site-header" id="siteHeader">
+        <div class="container d-flex align-items-center justify-content-between">
+            <!-- Logo -->
+            <a href="#" class="site-header__logo">
+                <i class="bi bi-phone-fill"></i>
+                <span>Mob<span class="logo-accent">ify</span></span>
             </a>
-        </div>
-        <div class="col">
-            <a href="#" class="category-card">
-                <div class="category-card__icon category-icon--tablets">
-                    <i class="bi bi-tablet"></i>
-                </div>
-                <span>Tablets</span>
-            </a>
-        </div>
-        <div class="col">
-            <a href="#" class="category-card">
-                <div class="category-card__icon category-icon--audio">
-                    <i class="bi bi-earbuds"></i>
-                </div>
-                <span>Audio</span>
-            </a>
-        </div>
-        <div class="col">
-            <a href="#" class="category-card">
-                <div class="category-card__icon category-icon--watches">
-                    <i class="bi bi-smartwatch"></i>
-                </div>
-                <span>Wearables</span>
-            </a>
-        </div>
-        <div class="col">
-            <a href="#" class="category-card">
-                <div class="category-card__icon category-icon--chargers">
-                    <i class="bi bi-lightning-charge"></i>
-                </div>
-                <span>Chargers</span>
-            </a>
-        </div>
-        <div class="col">
-            <a href="#" class="category-card">
-                <div class="category-card__icon category-icon--cases">
-                    <i class="bi bi-phone-flip"></i>
-                </div>
-                <span>Accessories</span>
-            </a>
-        </div>
-    </div>
-</section>
+            <form id="searchForm">
 
-<!-- MAIN CONTENT (Sidebar + Products Grid) -->
-<div class="row g-4 mb-5">
-    <!-- FILTERS SIDEBAR -->
-    <aside class="col-lg-3">
-        <div class="bg-surface rounded-4 p-4 shadow-sm border border-light sticky-top" style="top: 80px; z-index: 10;">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="fw-bold mb-0 text-secondary"><i class="bi bi-funnel-fill text-primary me-2"></i> Filters</h5>
-                <button type="button" class="btn-clear-filters btn-sm" id="clearFiltersBtn">
-                    <i class="bi bi-arrow-counterclockwise"></i> Clear
+                <div class="site-header__search d-none d-lg-flex">
+                    <div class="search-wrapper">
+
+
+
+                        <input id="searchInput"
+                               asp-for="ProductCardQueryVM.Search"
+                               class="search-input"
+                               placeholder="Search phones, tablets, accessories..." style="width:420px; padding:8px 12px; font-size:14px;" />
+
+                        <button type="button" class="search-btn" id="searchBtn">
+                            <i class="bi bi-search"></i>
+                        </button>
+
+                    </div>
+                </div>
+
+            </form>
+
+            <!-- Header Actions -->
+            <div class="site-header__actions">
+                <button class="header-action d-lg-none" id="searchToggle" aria-label="Toggle search">
+                    <i class="bi bi-search"></i>
                 </button>
+                <a href="#" class="header-action" data-bs-toggle="tooltip" title="Wishlist">
+                    <i class="bi bi-heart"></i>
+                    <span class="action-badge">3</span>
+                </a>
+                <a href="#" class="header-action" data-bs-toggle="tooltip" title="Compare">
+                    <i class="bi bi-arrow-left-right"></i>
+                    <span class="action-badge">2</span>
+                </a>
+                <a href="#" class="header-action cart-action" data-bs-toggle="tooltip" title="Cart">
+                    <i class="bi bi-cart3"></i>
+                    <span class="action-badge">5</span>
+                </a>
+                <a href="#" class="header-action user-action" data-bs-toggle="tooltip" title="Account">
+                    <i class="bi bi-person-circle"></i>
+                </a>
             </div>
+        </div>
 
-            <hr class="border-secondary opacity-10 mb-4">
-
-            <!-- Price Range -->
-            <div class="mb-4">
-                <h6 class="fw-bold mb-3 text-secondary">Price Range</h6>
-                <div class="d-flex align-items-center gap-2 mb-2">
-                    <input type="number" class="form-control form-control-sm text-center" placeholder="Min" min="0">
-                    <span class="text-muted">-</span>
-                    <input type="number" class="form-control form-control-sm text-center" placeholder="Max" min="0">
-                </div>
-                <input type="range" class="form-range" id="priceRange" min="0" max="2000" step="50">
-                <div class="d-flex justify-content-between text-muted small mt-1">
-                    <span>$0</span>
-                    <span>$2000+</span>
-                </div>
-            </div>
-
-            <hr class="border-secondary opacity-10 mb-4">
-
-            <!-- Brands Filter -->
-            <div class="mb-4 brand-filter">
-                <h6 class="fw-bold mb-3 text-secondary">Brands</h6>
-                <div class="form-check mb-2 custom-check">
-                    <input class="form-check-input" type="checkbox" value="apple" id="brandApple">
-                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandApple">
-                        <span>Apple</span> <span class="badge bg-light text-secondary rounded-pill">42</span>
-                    </label>
-                </div>
-                <div class="form-check mb-2 custom-check">
-                    <input class="form-check-input" type="checkbox" value="samsung" id="brandSamsung">
-                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandSamsung">
-                        <span>Samsung</span> <span class="badge bg-light text-secondary rounded-pill">38</span>
-                    </label>
-                </div>
-                <div class="form-check mb-2 custom-check">
-                    <input class="form-check-input" type="checkbox" value="google" id="brandGoogle">
-                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandGoogle">
-                        <span>Google</span> <span class="badge bg-light text-secondary rounded-pill">15</span>
-                    </label>
-                </div>
-                <div class="form-check mb-2 custom-check">
-                    <input class="form-check-input" type="checkbox" value="sony" id="brandSony">
-                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandSony">
-                        <span>Sony</span> <span class="badge bg-light text-secondary rounded-pill">24</span>
-                    </label>
-                </div>
-                <div class="form-check custom-check">
-                    <input class="form-check-input" type="checkbox" value="xiaomi" id="brandXiaomi">
-                    <label class="form-check-label text-muted d-flex justify-content-between w-100" for="brandXiaomi">
-                        <span>Xiaomi</span> <span class="badge bg-light text-secondary rounded-pill">19</span>
-                    </label>
+        <!-- Mobile Search (hidden by default) -->
+        <div class="mobile-search" id="mobileSearch">
+            <div class="container">
+                <div class="search-wrapper">
+                    <input type="text" class="search-input" placeholder="Search Mobify...">
+                    <button class="search-btn" aria-label="Search">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
             </div>
+        </div>
+    </header>
 
-            <hr class="border-secondary opacity-10 mb-4">
-
-            <!-- Rating Filter -->
-            <div class="mb-4 rating-filter">
-                <h6 class="fw-bold mb-3 text-secondary">Customer Rating</h6>
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="ratingRadio" id="rating4" value="4">
-                    <label class="form-check-label text-warning" for="rating4">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star text-muted"></i> & Up
-                    </label>
-                </div>
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="ratingRadio" id="rating3" value="3">
-                    <label class="form-check-label text-warning" for="rating3">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star text-muted"></i><i class="bi bi-star text-muted"></i> & Up
-                    </label>
-                </div>
-            </div>
-
-            <!-- Apply Button -->
-            <button class="btn btn-apply-filters w-100 py-2 mt-2 shadow-sm" id="applyFiltersBtn">
-                Apply Filters
+    <!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+    <nav class="main-nav" id="mainNav">
+        <div class="container d-flex align-items-center">
+            <!-- Mobile menu toggle -->
+            <button class="nav-toggler d-lg-none" id="sidebarToggle" aria-label="Toggle sidebar">
+                <i class="bi bi-list"></i>
+                <span>Menu</span>
             </button>
-        </div>
-    </aside>
 
-    <!-- PRODUCTS MAIN AREA -->
-    <div class="col-lg-9">
-        <!-- Toolbar: Sort and View Options -->
-        <div class="bg-surface rounded-4 p-3 mb-4 shadow-sm border border-light d-flex flex-wrap justify-content-between align-items-center gap-3">
-            <p class="mb-0 text-muted fw-bold">Showing <span class="text-primary">1-12</span> of 124 products</p>
-            <div class="d-flex align-items-center gap-3">
-                <div class="d-flex align-items-center gap-2">
-                    <label for="sortSelect" class="text-muted fw-bold text-nowrap mb-0 small">Sort By:</label>
-                    <select class="form-select form-select-sm border-light shadow-none fw-bold text-secondary" id="sortSelect" style="width: auto; min-width: 150px;">
-                        <option value="featured">Featured</option>
-                        <option value="newest">Newest Arrivals</option>
-                        <option value="price_asc">Price: Low to High</option>
-                        <option value="price_desc">Price: High to Low</option>
-                        <option value="rating">Top Rated</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Products Grid -->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5" id="productsGrid">
-            
-            <!-- Product Item 1 -->
-            <div class="col">
-                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
-                    <div class="position-absolute top-0 end-0 m-3 z-2">
-                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
-                    </div>
-                    <span class="badge bg-danger position-absolute top-0 start-0 m-3 z-2 px-2 py-1">-15%</span>
-                    
-                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1592899677974-c464095116ba?q=80&w=400&auto=format&fit=crop" alt="iPhone 15 Pro" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
-                    </a>
-                    
-                    <div class="card-body pt-0 d-flex flex-column">
-                        <div class="mb-2">
-                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Apple</span>
-                        </div>
-                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
-                            <a href="#" class="text-secondary text-decoration-none">iPhone 15 Pro Max 256GB</a>
-                        </h5>
-                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                            <span class="text-muted ms-1">(128)</span>
-                        </div>
-                        <div class="mt-auto d-flex justify-content-between align-items-end">
-                            <div>
-                                <span class="text-muted text-decoration-line-through small me-1">$1,199</span>
-                                <span class="fs-5 fw-bold text-primary">$1,019</span>
-                            </div>
-                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
-                                <i class="bi bi-cart-plus fs-5"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product Item 2 -->
-            <div class="col">
-                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
-                    <div class="position-absolute top-0 end-0 m-3 z-2">
-                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
-                    </div>
-                    
-                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?q=80&w=400&auto=format&fit=crop" alt="Samsung Galaxy S24" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
-                    </a>
-                    
-                    <div class="card-body pt-0 d-flex flex-column">
-                        <div class="mb-2">
-                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Samsung</span>
-                        </div>
-                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
-                            <a href="#" class="text-secondary text-decoration-none">Galaxy S24 Ultra 512GB</a>
-                        </h5>
-                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                            <span class="text-muted ms-1">(96)</span>
-                        </div>
-                        <div class="mt-auto d-flex justify-content-between align-items-end">
-                            <div>
-                                <span class="fs-5 fw-bold text-primary">$1,299</span>
-                            </div>
-                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
-                                <i class="bi bi-cart-plus fs-5"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product Item 3 -->
-            <div class="col">
-                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
-                    <div class="position-absolute top-0 end-0 m-3 z-2">
-                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart-fill"></i></button>
-                    </div>
-                    <span class="badge bg-primary position-absolute top-0 start-0 m-3 z-2 px-2 py-1">New</span>
-                    
-                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=400&auto=format&fit=crop" alt="Apple Watch Series 9" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
-                    </a>
-                    
-                    <div class="card-body pt-0 d-flex flex-column">
-                        <div class="mb-2">
-                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Apple</span>
-                        </div>
-                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
-                            <a href="#" class="text-secondary text-decoration-none">Watch Series 9 GPS 45mm</a>
-                        </h5>
-                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star text-muted"></i>
-                            <span class="text-muted ms-1">(45)</span>
-                        </div>
-                        <div class="mt-auto d-flex justify-content-between align-items-end">
-                            <div>
-                                <span class="fs-5 fw-bold text-primary">$429</span>
-                            </div>
-                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
-                                <i class="bi bi-cart-plus fs-5"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product Item 4 -->
-            <div class="col">
-                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
-                    <div class="position-absolute top-0 end-0 m-3 z-2">
-                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
-                    </div>
-                    
-                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1606220588913-b3aacb4b2f46?q=80&w=400&auto=format&fit=crop" alt="Sony Headphones" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
-                    </a>
-                    
-                    <div class="card-body pt-0 d-flex flex-column">
-                        <div class="mb-2">
-                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Sony</span>
-                        </div>
-                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
-                            <a href="#" class="text-secondary text-decoration-none">WH-1000XM5 Wireless Noise Canceling</a>
-                        </h5>
-                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                            <span class="text-muted ms-1">(210)</span>
-                        </div>
-                        <div class="mt-auto d-flex justify-content-between align-items-end">
-                            <div>
-                                <span class="fs-5 fw-bold text-primary">$398</span>
-                            </div>
-                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
-                                <i class="bi bi-cart-plus fs-5"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product Item 5 -->
-            <div class="col">
-                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
-                    <div class="position-absolute top-0 end-0 m-3 z-2">
-                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
-                    </div>
-                    <span class="badge bg-dark position-absolute top-0 start-0 m-3 z-2 px-2 py-1">Limited</span>
-                    
-                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=400&auto=format&fit=crop" alt="Dell XPS 15" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
-                    </a>
-                    
-                    <div class="card-body pt-0 d-flex flex-column">
-                        <div class="mb-2">
-                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Dell</span>
-                        </div>
-                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
-                            <a href="#" class="text-secondary text-decoration-none">XPS 15 Laptop 32GB RAM 1TB SSD</a>
-                        </h5>
-                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                            <span class="text-muted ms-1">(89)</span>
-                        </div>
-                        <div class="mt-auto d-flex justify-content-between align-items-end">
-                            <div>
-                                <span class="fs-5 fw-bold text-primary">$1,899</span>
-                            </div>
-                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
-                                <i class="bi bi-cart-plus fs-5"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product Item 6 -->
-            <div class="col">
-                <div class="card product-card h-100 shadow-sm border-0 bg-surface position-relative overflow-hidden group">
-                    <div class="position-absolute top-0 end-0 m-3 z-2">
-                        <button class="btn btn-light btn-sm rounded-circle shadow-sm text-muted hover-text-danger" style="width: 35px; height: 35px;"><i class="bi bi-heart"></i></button>
-                    </div>
-                    
-                    <a href="#" class="text-center p-4 text-decoration-none d-block overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=400&auto=format&fit=crop" alt="AirPods Pro 2" class="product-card__image img-fluid" style="object-fit: contain; max-height: 180px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
-                    </a>
-                    
-                    <div class="card-body pt-0 d-flex flex-column">
-                        <div class="mb-2">
-                            <span class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Apple</span>
-                        </div>
-                        <h5 class="card-title product-name fs-6 fw-bold mb-2">
-                            <a href="#" class="text-secondary text-decoration-none">AirPods Pro (2nd Generation)</a>
-                        </h5>
-                        <div class="d-flex align-items-center gap-1 mb-3 text-warning small">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                            <span class="text-muted ms-1">(450)</span>
-                        </div>
-                        <div class="mt-auto d-flex justify-content-between align-items-end">
-                            <div>
-                                <span class="fs-5 fw-bold text-primary">$249</span>
-                            </div>
-                            <button class="btn btn-primary btn-sm rounded-circle shadow-sm btn-add-cart" style="width: 40px; height: 40px;" title="Add to Cart">
-                                <i class="bi bi-cart-plus fs-5"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div> <!-- /.row -->
-
-        <!-- Pagination -->
-        <nav aria-label="Product pagination" class="d-flex justify-content-center mt-5">
-            <ul class="pagination pagination-md shadow-sm">
-                <li class="page-item disabled">
-                    <a class="page-link border-light text-muted" href="#" tabindex="-1" aria-disabled="true"><i class="bi bi-chevron-left"></i></a>
+            <ul class="main-nav__list d-none d-lg-flex">
+                <li class="nav-item active">
+                    <a href="#"><i class="bi bi-house-door"></i> Home</a>
                 </li>
-                <li class="page-item active" aria-current="page"><a class="page-link bg-primary border-primary text-white" href="#">1</a></li>
-                <li class="page-item"><a class="page-link border-light text-secondary" href="#">2</a></li>
-                <li class="page-item"><a class="page-link border-light text-secondary" href="#">3</a></li>
-                <li class="page-item"><a class="page-link border-light text-secondary" href="#">...</a></li>
-                <li class="page-item"><a class="page-link border-light text-secondary" href="#">11</a></li>
-                <li class="page-item">
-                    <a class="page-link border-light text-primary" href="#"><i class="bi bi-chevron-right"></i></a>
+                <li class="nav-item dropdown">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="bi bi-phone"></i> Mobiles
+                    </a>
+                    <ul class="dropdown-menu mega-menu">
+                        <li class="mega-menu__inner">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6 class="mega-menu__title">By Brand</h6>
+                                    <a href="#">Apple iPhone</a>
+                                    <a href="#">Samsung Galaxy</a>
+                                    <a href="#">Google Pixel</a>
+                                    <a href="#">OnePlus</a>
+                                    <a href="#">Xiaomi</a>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6 class="mega-menu__title">By Price</h6>
+                                    <a href="#">Under $200</a>
+                                    <a href="#">$200 – $500</a>
+                                    <a href="#">$500 – $800</a>
+                                    <a href="#">$800 – $1200</a>
+                                    <a href="#">Flagship ($1200+)</a>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6 class="mega-menu__title">By Feature</h6>
+                                    <a href="#">Best Camera</a>
+                                    <a href="#">Best Battery</a>
+                                    <a href="#">5G Phones</a>
+                                    <a href="#">Gaming Phones</a>
+                                    <a href="#">Foldable Phones</a>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6 class="mega-menu__title">Popular</h6>
+                                    <a href="#">New Arrivals</a>
+                                    <a href="#">Best Sellers</a>
+                                    <a href="#">Top Rated</a>
+                                    <a href="#">Deals of the Day</a>
+                                    <a href="#">Compare Phones</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="bi bi-tablet"></i> Tablets
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Apple iPad</a></li>
+                        <li><a class="dropdown-item" href="#">Samsung Galaxy Tab</a></li>
+                        <li><a class="dropdown-item" href="#">Microsoft Surface</a></li>
+                        <li><a class="dropdown-item" href="#">Amazon Fire</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">View All Tablets</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="bi bi-headphones"></i> Accessories
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Cases & Covers</a></li>
+                        <li><a class="dropdown-item" href="#">Screen Protectors</a></li>
+                        <li><a class="dropdown-item" href="#">Chargers & Cables</a></li>
+                        <li><a class="dropdown-item" href="#">Earbuds & Headphones</a></li>
+                        <li><a class="dropdown-item" href="#">Smartwatches</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">View All Accessories</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-deals">
+                        <i class="bi bi-tag-fill"></i> Deals
+                        <span class="deals-badge">HOT</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#"><i class="bi bi-arrow-left-right"></i> Compare</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#"><i class="bi bi-newspaper"></i> Tech News</a>
                 </li>
             </ul>
-        </nav>
-        
-    </div>
-</div>
 
-<!-- TOP BRANDS STRIP -->
-<section class="brand-strip py-4 mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-3 px-2">
-         <h5 class="fw-bold text-secondary mb-0">Top Brands</h5>
-    </div>
-    <div class="brand-logos-row">
-        <a href="#" class="brand-logo-item">
-            <i class="bi bi-apple"></i>
-            Apple
-        </a>
-        <a href="#" class="brand-logo-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Samsung_wordmark.svg" height="15" alt="Samsung" style="filter: grayscale(100%) opacity(0.7);" onmouseover="this.style.filter='grayscale(0%) opacity(1)'" onmouseout="this.style.filter='grayscale(100%) opacity(0.7)'" />
-            <span class="mt-1">Samsung</span>
-        </a>
-        <a href="#" class="brand-logo-item">
-            <i class="bi bi-google"></i>
-            Google
-        </a>
-        <a href="#" class="brand-logo-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Sony_logo.svg" height="15" alt="Sony" style="filter: grayscale(100%) opacity(0.7);" onmouseover="this.style.filter='grayscale(0%) opacity(1)'" onmouseout="this.style.filter='grayscale(100%) opacity(0.7)'" />
-            <span class="mt-1">Sony</span>
-        </a>
-        <a href="#" class="brand-logo-item">
-            <i class="bi bi-microsoft"></i>
-            Microsoft
-        </a>
-        <a href="#" class="brand-logo-item">
-            <i class="bi bi-xbox"></i>
-            Xbox
-        </a>
-        <a href="#" class="brand-logo-item">
-            <i class="bi bi-playstation"></i>
-            PlayStation
-        </a>
-    </div>
-</section>
-
-<!-- NEWSLETTER SECTION -->
-<section class="mb-5">
-    <div class="bg-primary text-white rounded-5 p-5 position-relative overflow-hidden shadow-sm">
-        <div class="row align-items-center position-relative z-1">
-            <div class="col-md-6 mb-4 mb-md-0">
-                <h3 class="fw-bold mb-2">Join Our Newsletter</h3>
-                <p class="opacity-75 mb-0">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+            <!-- Phone number on large screens -->
+            <div class="nav-phone d-none d-xl-flex">
+                <i class="bi bi-telephone-fill"></i>
+                <span>1-800-MOBIFY</span>
             </div>
-            <div class="col-md-6">
-                <form id="newsletterForm" class="d-flex bg-white rounded-pill p-1 shadow-sm mx-auto" style="max-width: 450px;">
-                    <div class="input-group">
-                        <span class="input-group-text bg-transparent border-0 text-muted ps-3">
-                            <i class="bi bi-envelope"></i>
-                        </span>
-                        <input type="email" id="newsletterEmail" class="form-control border-0 shadow-none ps-2 py-3" placeholder="Enter your email" required>
-                        <button class="btn btn-primary rounded-pill px-4 m-1 fw-bold" type="submit">Subscribe</button>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════ SIDEBAR OVERLAY ═══════════════════════ -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ═══════════════════════ MAIN LAYOUT ═══════════════════════ -->
+    <div class="container-fluid main-wrapper">
+        <div class="row">
+
+            <!-- ─────────────── SIDEBAR ─────────────── -->
+            <aside class="sidebar" id="sidebar">
+
+                <!-- Mobile Header -->
+                <div class="sidebar__header d-lg-none">
+                    <span class="sidebar__title">Menu & Filters</span>
+                    <button class="sidebar__close" id="sidebarClose" aria-label="Close sidebar">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+
+                <div class="sidebar__body">
+
+                    <!-- ── Category Filter ── -->
+                    <div class="sidebar-section">
+                        <p class="sidebar-section__label">
+                            <i class="bi bi-grid-3x3-gap"></i>
+                            Category
+                        </p>
+                        <ul class="sidebar-categories">
+                            <li>
+                                <a href="#" class="category-filter active" data-category="">
+                                    <i class="bi bi-grid"></i>
+                                    All
+                                </a>
+                            </li>
+                            @foreach (var category in Model.CategoryAndCountOfProducts.Where(x => x.CountOfProduct > 0))
+                            {
+                                <li>
+                                    <a href="#" class="category-filter" data-category="@category.Id">
+                                        <i class="bi bi-tag"></i>
+                                        @category.Name
+                                        <span class="badge">@category.CountOfProduct</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
                     </div>
-                </form>
-                <div id="newsletterMsg" class="text-center mt-2 small fw-bold" style="min-height: 20px;"></div>
+
+                    <!-- ── Price Range Filter ── -->
+                    <div class="sidebar-section">
+                        <p class="sidebar-section__label">
+                            <i class="bi bi-currency-dollar"></i>
+                            Price Range
+                        </p>
+                        <div class="sidebar-widget">
+                            <div class="price-filter">
+                                <input type="range"
+                                       class="form-range price-slider"
+                                       id="priceRange"
+                                       min="0"
+                                       max="2000"
+                                       value="@(Model?.ProductCardQueryVM.Price ?? 2000)" />
+                                <div class="price-filter__labels">
+                                    <span>$0</span>
+                                    <span class="price-value" id="priceValue">
+                                        $@(Model?.ProductCardQueryVM.Price ?? 1000)
+                                    </span>
+                                    <span>$2000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── Brand Filter ── -->
+                    <div class="sidebar-section">
+                        <p class="sidebar-section__label">
+                            <i class="bi bi-building"></i>
+                            Brand
+                        </p>
+                        <div class="brand-filter">
+                            <label class="brand-check">
+                                <input type="radio" name="brand" class="brand-filter-input" value="" checked>
+                                <span class="checkmark"></span>
+                                All
+                            </label>
+                            @foreach (var brand in Model.brandAndCountOfProducts.Where(x => x.NumberOfProduct > 0))
+                            {
+                                <label class="brand-check">
+                                    <input type="radio" name="brand" class="brand-filter-input" value="@brand.Id">
+                                    <span class="checkmark"></span>
+                                    @brand.BrandName
+                                    <span class="count">(@brand.NumberOfProduct)</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </aside>
+            <!-- ─────────────── MAIN CONTENT ─────────────── -->
+            <main class="main-content" id="mainContent">
+
+
+                <!-- Hero / Featured Carousel -->
+                <section class="hero-carousel">
+                    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="hero-slide hero-slide--1">
+                                    <div class="hero-slide__content">
+                                        <span class="hero-badge">New Release</span>
+                                        <h2>Galaxy S25 Ultra</h2>
+                                        <p>Experience the next generation of mobile photography with 200MP AI-powered camera.</p>
+                                        <div class="hero-actions">
+                                            <a href="#" class="btn btn-hero-primary">Shop Now</a>
+                                            <a href="#" class="btn btn-hero-outline">View Specs</a>
+                                        </div>
+                                    </div>
+                                    <div class="hero-slide__visual">
+                                        <div class="hero-phone-mockup">
+                                            <i class="bi bi-phone-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="hero-slide hero-slide--2">
+                                    <div class="hero-slide__content">
+                                        <span class="hero-badge">Best Seller</span>
+                                        <h2>iPhone 17 Pro Max</h2>
+                                        <p>Titanium design. A18 Pro chip. The most powerful iPhone ever.</p>
+                                        <div class="hero-actions">
+                                            <a href="#" class="btn btn-hero-primary">Shop Now</a>
+                                            <a href="#" class="btn btn-hero-outline">View Specs</a>
+                                        </div>
+                                    </div>
+                                    <div class="hero-slide__visual">
+                                        <div class="hero-phone-mockup">
+                                            <i class="bi bi-apple"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="hero-slide hero-slide--3">
+                                    <div class="hero-slide__content">
+                                        <span class="hero-badge">Hot Deal</span>
+                                        <h2>Pixel 10 Pro</h2>
+                                        <p>Pure Android experience with the best AI features and Tensor G5 chip.</p>
+                                        <div class="hero-actions">
+                                            <a href="#" class="btn btn-hero-primary">Shop Now</a>
+                                            <a href="#" class="btn btn-hero-outline">View Specs</a>
+                                        </div>
+                                    </div>
+                                    <div class="hero-slide__visual">
+                                        <div class="hero-phone-mockup">
+                                            <i class="bi bi-google"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Quick Stats -->
+                <section class="quick-stats">
+                    <div class="row g-3">
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card">
+                                <i class="bi bi-truck"></i>
+                                <div>
+                                    <strong>Free Shipping</strong>
+                                    <span>On orders $99+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card">
+                                <i class="bi bi-shield-check"></i>
+                                <div>
+                                    <strong>2-Year Warranty</strong>
+                                    <span>Official guarantee</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card">
+                                <i class="bi bi-arrow-repeat"></i>
+                                <div>
+                                    <strong>30-Day Returns</strong>
+                                    <span>Hassle free</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card">
+                                <i class="bi bi-headset"></i>
+                                <div>
+                                    <strong>24/7 Support</strong>
+                                    <span>Always here</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Product Grid -->
+                <section class="product-section">
+                    <div class="section-header">
+
+                        <h3 class="section-title">
+                            <i class="bi bi-fire"></i> Trending Products
+                        </h3>
+
+                        <div class="section-controls">
+
+                            <form asp-action="Index" method="get">
+                                <select asp-for="ProductCardQueryVM.Sort"
+                                        class="form-select sort-select"
+                                        id="sortSelect">
+
+                                    <option value="asc">Price: Low to High</option>
+                                    <option value="desc">Price: High to Low</option>
+
+                                </select>
+                            </form>
+
+                        </div>
+                    </div>
+                </section>
+
+
+
+                <div id="productsContainer">
+                    @await Html.PartialAsync("_ProductsGrid", Model)
+                </div>
+
+
+
+                <!-- Deals Banner -->
+                <section class="deals-banner">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7">
+                            <span class="deals-badge-lg">Limited Time Offer</span>
+                            <h3>Mega Sale — Up to 50% Off</h3>
+                            <p>Don't miss out on incredible deals on top smartphones, tablets, and accessories. Limited stock available.</p>
+                            <div class="deals-timer">
+                                <div class="timer-unit">
+                                    <span class="timer-num" id="days">02</span>
+                                    <span class="timer-label">Days</span>
+                                </div>
+                                <div class="timer-unit">
+                                    <span class="timer-num" id="hours">14</span>
+                                    <span class="timer-label">Hours</span>
+                                </div>
+                                <div class="timer-unit">
+                                    <span class="timer-num" id="minutes">36</span>
+                                    <span class="timer-label">Min</span>
+                                </div>
+                                <div class="timer-unit">
+                                    <span class="timer-num" id="seconds">52</span>
+                                    <span class="timer-label">Sec</span>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-deals">Shop All Deals <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                        <div class="col-lg-5 d-none d-lg-block text-center">
+                            <div class="deals-visual">
+                                <i class="bi bi-phone-fill"></i>
+                                <i class="bi bi-tablet-fill"></i>
+                                <i class="bi bi-headphones"></i>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Newsletter -->
+                <section class="newsletter-section">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <h4><i class="bi bi-envelope-paper-fill"></i> Stay in the Loop</h4>
+                            <p>Get the latest deals, tech news, and exclusive offers straight to your inbox.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <form class="newsletter-form">
+                                <input type="email" class="form-control" placeholder="Enter your email address">
+                                <button type="submit" class="btn btn-newsletter">Subscribe</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row g-4">
+                <!-- About -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-widget">
+                        <a href="#" class="footer-logo">
+                            <i class="bi bi-phone-fill"></i>
+                            <span>Mob<span class="logo-accent">ify</span></span>
+                        </a>
+                        <p class="footer-about">
+                            Your one-stop destination for the latest mobile phones, tablets, and accessories. We provide detailed specifications, honest reviews, and the best deals to help you make the right choice.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 col-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-widget__title">Quick Links</h5>
+                        <ul class="footer-links">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Blog & News</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Affiliate Program</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Customer Support -->
+                <div class="col-lg-2 col-md-6 col-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-widget__title">Support</h5>
+                        <ul class="footer-links">
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Track Order</a></li>
+                            <li><a href="#">Shipping Info</a></li>
+                            <li><a href="#">Returns & Refunds</a></li>
+                            <li><a href="#">Warranty Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Contact Info -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-widget">
+                        <h5 class="footer-widget__title">Get in Touch</h5>
+                        <ul class="footer-contact">
+                            <li>
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>123 Tech Avenue, Silicon Valley, CA 94025</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-telephone-fill"></i>
+                                <span>1-800-MOBIFY (662-4393)</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-envelope-fill"></i>
+                                <span>support@mobify.com</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-clock-fill"></i>
+                                <span>Mon – Sat: 9:00 AM – 8:00 PM</span>
+                            </li>
+                        </ul>
+                        <div class="footer-payments">
+                            <span>We Accept:</span>
+                            <div class="payment-icons">
+                                <i class="bi bi-credit-card-2-back-fill" title="Visa"></i>
+                                <i class="bi bi-credit-card-fill" title="Mastercard"></i>
+                                <i class="bi bi-paypal" title="PayPal"></i>
+                                <i class="bi bi-wallet2" title="Apple Pay"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p>&copy; 2026 Mobify. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="footer-bottom__links">
+                            <a href="#">Privacy Policy</a>
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Cookie Settings</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="position-absolute bottom-0 start-0 translate-middle-y text-white opacity-10" style="font-size: 25rem; left: -5%; z-index: 0; pointer-events: none;">
-            <i class="bi bi-mailbox"></i>
-        </div>
-    </div>
-</section>
+    </footer>
 
-<!-- CART TOAST -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
-  <div id="cartToast" class="toast hide shadow" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header bg-surface border-bottom border-light">
-      <i class="bi bi-check-circle-fill text-success me-2 fs-5"></i>
-      <strong class="me-auto text-secondary">Cart Updated</strong>
-      <small class="text-muted">Just now</small>
-        <button type="button" class="btn-close shadow-none" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body bg-white text-muted fw-bold">
-      Item successfully added to your cart!
-    </div>
-  </div>
-</div>
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="bi bi-chevron-up"></i>
+    </button>
 
-@section Scripts {
-    <script src="~/js/home.js" asp-append-version="true"></script>
+    <!-- Bootstrap 5.3 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const slider = document.getElementById("priceRange");
+            const priceLabel = document.getElementById("priceValue");
+
+            if (!slider) return;
+
+            slider.addEventListener("input", function () {
+                priceLabel.textContent = "$" + this.value;
+            });
+
+            slider.addEventListener("change", function () {
+                this.closest("form").submit();
+            });
+
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const sortSelect = document.getElementById("sortSelect");
+            if (!sortSelect) return;
+            sortSelect.addEventListener("change", function () {
+                const url = new URL(window.location.href);
+                url.searchParams.set("ProductCardQueryVM.Sort", this.value);
+                fetch(url, {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                })
+                .then(res => res.text())
+                .then(html => {
+
+                    document.getElementById("productsContainer").innerHTML = html;
+
+                });
+
+            });
+
+        });
+
+let selectedCategory = null;
+
+function loadProducts(page = 1)
+{
+    const params = new URLSearchParams();
+
+    params.append("ProductCardQueryVM.Search",
+        document.getElementById("searchInput")?.value || "");
+
+    params.append("ProductCardQueryVM.Price",
+        document.getElementById("priceRange")?.value || "");
+
+    params.append("ProductCardQueryVM.Sort",
+        document.getElementById("sortSelect")?.value || "");
+
+    params.append("ProductCardQueryVM.Page", page);
+
+    if (selectedCategory)
+        params.append("ProductCardQueryVM.CategoryId", selectedCategory);
+
+    const brands = [...document.querySelectorAll(".brand-filter-input:checked")]
+        .map(x => x.value);
+
+    if (brands.length > 0)
+        params.append("ProductCardQueryVM.BrandId", brands.join(","));
+
+    fetch("/Home/Index?" + params.toString(), {
+        headers: {
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
+    .then(res => res.text())
+    .then(html => {
+
+        document.getElementById("productsContainer").innerHTML = html;
+
+    });
 }
+
+        function debounce(func, delay) {
+            let timer;
+            return function () {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    func();
+                }, delay);
+            }
+        }
+
+        //connect with ajax call
+        const searchInput = document.getElementById("searchInput");
+        const searchBtn = document.getElementById("searchBtn");
+        searchBtn.addEventListener("click", loadProducts);
+        searchInput.addEventListener("input", debounce(loadProducts, 500));
+        //category
+        document.querySelectorAll(".category-filter")
+        .forEach(btn => {
+
+            btn.addEventListener("click", function(e){
+
+                e.preventDefault();
+
+                selectedCategory = this.dataset.category;
+
+                loadProducts();
+
+            });
+
+        });
+        
+        //Brand
+         document.querySelectorAll(".brand-filter-input")
+        .forEach(x => {
+
+            x.addEventListener("change", function(){
+
+                loadProducts();
+
+            });
+
+        });
+
+        //Price
+        document.getElementById("priceRange").addEventListener("change", loadProducts);
+        const priceSlider = document.getElementById("priceRange");
+        const priceLabel = document.getElementById("priceValue");
+
+        priceSlider.addEventListener("input", function(){
+
+            priceLabel.textContent = "$" + this.value;
+
+        });
+
+        //Category Just One Choise
+        document.querySelectorAll(".category-filter").forEach(item => {
+
+            item.addEventListener("click", function (e) {
+
+                e.preventDefault();
+
+                document.querySelectorAll(".category-filter")
+                    .forEach(x => x.classList.remove("active"));
+
+                this.classList.add("active");
+
+                const categoryId = this.dataset.category;
+
+                console.log("Selected Category:", categoryId);
+
+            });
+
+        });
+</script>
+
+
+
+</body>
+
+</html>

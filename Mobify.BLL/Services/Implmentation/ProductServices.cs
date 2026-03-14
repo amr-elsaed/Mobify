@@ -211,5 +211,51 @@
                 PageSize = vm.PageSize
             };
         }
+
+        public async Task<Response<bool>> UpdateOffer(ProductOfferVM productOffer)
+        {
+            var PriceVM = await GetProoductPriceById(productOffer.ProductId);
+            var offer = new ProductOffer()
+            {
+                ProductId = productOffer.ProductId,
+                NewPrice = productOffer.NewPrice,
+                HasOffer = productOffer.HasOffer,
+            };
+            // safer percent calculation
+            if (PriceVM?.result == null || PriceVM.result.Price == 0m)
+                throw new InvalidOperationException("Original product price missing or zero.");
+
+            var percentDecimal = (productOffer.NewPrice / PriceVM.result.Price) * 100m;
+            offer.Precentage = (int)Math.Round(percentDecimal, MidpointRounding.AwayFromZero);
+            await repo.UpdateOffer(offer);
+            return new Response<bool>(true, null, false);
+        }
+
+        public async Task<Response<ProductOfferVM>> GetProductOffer(int Id)
+        {
+            var offer = await repo.GetOffer(Id);
+            if(offer!= null)
+            {
+                ProductOfferVM productOfferVM = new ProductOfferVM()
+                {
+                    HasOffer = offer.HasOffer,
+                    NewPrice = offer.NewPrice,
+                    ProductId = Id,
+                };
+                return new Response<ProductOfferVM>(productOfferVM, null, false);
+            }
+            return new Response<ProductOfferVM>(null, null, false);
+        }
+
+        public async Task<Response<ProductPriceVM>> GetProoductPriceById(int Id)
+        {
+            var product =await repo.GetById(Id);
+            ProductPriceVM productPriceVM = new ProductPriceVM()
+            {
+                Id = product.Id,
+                Price = product.Price
+            };
+            return new Response<ProductPriceVM>(productPriceVM, null, false);
+        }
     }
 }

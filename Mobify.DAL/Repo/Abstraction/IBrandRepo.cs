@@ -9,5 +9,6 @@
         public Task<List<Brand>> GetAllWithPhotoes();
         public Task<List<Brand>> GetAllWithPhotoesAndProduct();
         public Task<Brand> GetById(int Id);
+        public IQueryable<Brand> Query();
     }
 }
