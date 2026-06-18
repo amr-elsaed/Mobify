@@ -9,3 +9,5 @@ global using System.ComponentModel.DataAnnotations;
 global using Mobify.BLL.Helper;
 global using Mobify.BLL.ModelVM.ProductVM;
 global using Microsoft.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Identity;
+global using Mobify.BLL.ModelVM.AccountVM;

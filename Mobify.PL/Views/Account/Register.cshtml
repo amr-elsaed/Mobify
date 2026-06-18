@@ -1,0 +1,107 @@
+@model Mobify.BLL.ModelVM.AccountVM.UserRegisterVM
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section class="auth-page">
+    <div class="auth-card auth-card--wide">
+        <div class="auth-card__form">
+            <div class="auth-kicker">
+                <i class="bi bi-person-plus"></i>
+                Join Mobify
+            </div>
+
+            <h1 class="auth-title">Create your account</h1>
+            <p class="auth-subtitle">Set up your Mobify profile for a smoother shopping experience across phones, tablets, and accessories.</p>
+
+            <form asp-controller="Account" asp-action="Register" method="post" class="auth-form">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger auth-validation-summary" role="alert"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Name" class="form-label auth-label">Full name</label>
+                        <div class="auth-input">
+                            <i class="bi bi-person"></i>
+                            <input asp-for="Name"
+                                   class="form-control auth-control"
+                                   placeholder="Your name"
+                                   autocomplete="name"
+                                   required />
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label auth-label">Email address</label>
+                        <div class="auth-input">
+                            <i class="bi bi-envelope"></i>
+                            <input asp-for="Email"
+                                   class="form-control auth-control"
+                                   placeholder="you@example.com"
+                                   autocomplete="email"
+                                   required />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Address" class="form-label auth-label">Address</label>
+                        <div class="auth-input">
+                            <i class="bi bi-geo-alt"></i>
+                            <input asp-for="Address"
+                                   class="form-control auth-control"
+                                   placeholder="Delivery address"
+                                   autocomplete="street-address"
+                                   required />
+                        </div>
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Password" class="form-label auth-label">Password</label>
+                        <div class="auth-input">
+                            <i class="bi bi-key"></i>
+                            <input asp-for="Password"
+                                   class="form-control auth-control"
+                                   placeholder="Create a password"
+                                   autocomplete="new-password"
+                                   required />
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn auth-submit mt-4">
+                    <i class="bi bi-person-check"></i>
+                    Create account
+                </button>
+            </form>
+
+            <p class="auth-switch">
+                Already have an account?
+                <a asp-controller="Account" asp-action="Login">Log in</a>
+            </p>
+        </div>
+
+        <div class="auth-card__aside" aria-hidden="true">
+            <div class="auth-aside__icon">
+                <i class="bi bi-stars"></i>
+            </div>
+            <h2>Everything you need to choose your next device.</h2>
+            <div class="auth-aside__list">
+                <span><i class="bi bi-check2-circle"></i> Curated deals</span>
+                <span><i class="bi bi-check2-circle"></i> Order updates</span>
+                <span><i class="bi bi-check2-circle"></i> Saved preferences</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

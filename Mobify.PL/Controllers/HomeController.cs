@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mobify.BLL.ModelVM.HomePageVM;
 using Mobify.BLL.Services.Abstraction;
@@ -8,6 +9,7 @@ using Mobify.PL.Models;
 
 namespace Mobify.PL.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IHomePageServices services;

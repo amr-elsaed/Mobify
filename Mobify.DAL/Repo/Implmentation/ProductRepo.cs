@@ -15,7 +15,7 @@ namespace Mobify.DAL.Repo.Implmentation
         }
         public async Task<Product?> GetById(int Id)
         {
-            return await context.Products.FindAsync(Id);
+            return await context.Products.Include(x=>x.ProductPhotos).Include(x=>x.productOffer).Include(x=>x.ProductProperties).Include(x=>x.Brand).FirstOrDefaultAsync(x=>x.Id == Id);
         }
         public async Task<Product?> GetByIdIncludePropAndPhotoesNoTraacking(int Id)
         {

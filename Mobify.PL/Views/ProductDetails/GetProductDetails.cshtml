@@ -1,0 +1,1070 @@
+@using System.Collections.Generic
+@using System.Linq
+@using Mobify.BLL.ModelVM.ProductDetailsVM
+@model ProductDetailsVM
+@{
+    ViewData["Title"] = "Product Details";
+
+    var productPhotos = Model.ProductPhotos ?? new List<string>();
+    var advantages = Model.AdvProductProperties ?? new List<string>();
+    var disadvantages = Model.DisAdvProductProperties ?? new List<string>();
+    var mainPhoto = productPhotos.FirstOrDefault();
+    var hasOfferPrice = Model.HasOffer && Model.OfferPrice.HasValue;
+    var hasOfferPercentage = Model.HasOffer && Model.Precentage.HasValue;
+    var currentPrice = hasOfferPrice ? Model.OfferPrice!.Value : Model.Price;
+    var savings = hasOfferPrice ? Model.Price - Model.OfferPrice!.Value : 0;
+}
+
+@section Styles {
+    <style>
+        .pd-page {
+            position: relative;
+            margin-top: 2rem;
+            padding: 2rem 0 3rem;
+        }
+
+        .pd-page::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto;
+            height: 420px;
+            background:
+                radial-gradient(circle at top left, rgba(13, 148, 136, 0.18), transparent 38%),
+                radial-gradient(circle at top right, rgba(99, 102, 241, 0.14), transparent 28%),
+                linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+        }
+
+        .pd-shell {
+            position: relative;
+            z-index: 1;
+        }
+
+        .pd-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.9fr);
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .pd-hero-card,
+        .pd-gallery,
+        .pd-purchase-card,
+        .pd-section-card,
+        .pd-feature-card,
+        .pd-points-card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .pd-hero-card {
+            border-radius: 32px;
+            padding: 1.75rem;
+        }
+
+        .pd-breadcrumb {
+            margin-bottom: 1.25rem;
+        }
+
+        .pd-breadcrumb .breadcrumb {
+            gap: 0.3rem;
+            margin-bottom: 0;
+        }
+
+        .pd-breadcrumb .breadcrumb-item,
+        .pd-breadcrumb .breadcrumb-item a {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .pd-breadcrumb .breadcrumb-item.active {
+            color: #0f172a;
+        }
+
+        .pd-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(13, 148, 136, 0.12);
+            color: #0f766e;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .pd-title {
+            margin: 1rem 0 0.85rem;
+            font-size: clamp(2rem, 3.8vw, 3.7rem);
+            line-height: 1.02;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: #0f172a;
+        }
+
+        .pd-description {
+            max-width: 62ch;
+            margin: 0;
+            color: #475569;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .pd-chip-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .pd-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.8rem 1rem;
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            color: #0f172a;
+            font-weight: 600;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
+        }
+
+        .pd-chip i {
+            color: #0d9488;
+        }
+
+        .pd-highlight-card {
+            border-radius: 28px;
+            padding: 1.5rem;
+            background: linear-gradient(160deg, #0f172a 0%, #123456 55%, #0d9488 100%);
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pd-highlight-card::after {
+            content: "";
+            position: absolute;
+            inset: auto -60px -80px auto;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .pd-highlight-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .pd-highlight-price {
+            margin: 0.85rem 0 0.45rem;
+            font-size: clamp(2rem, 3vw, 3rem);
+            line-height: 1;
+            font-weight: 800;
+        }
+
+        .pd-highlight-subtitle {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+        }
+
+        .pd-highlight-grid {
+            display: grid;
+            gap: 0.9rem;
+            margin-top: 1.4rem;
+        }
+
+        .pd-highlight-stat {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.95rem 1rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pd-highlight-stat span:first-child {
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .pd-highlight-stat strong {
+            font-size: 1.02rem;
+            font-weight: 700;
+        }
+
+        .pd-gallery {
+            border-radius: 32px;
+            padding: 1.35rem;
+        }
+
+        .pd-main-image {
+            position: relative;
+            min-height: 520px;
+            border-radius: 28px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top left, rgba(13, 148, 136, 0.2), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.18), transparent 40%),
+                linear-gradient(160deg, #f8fafc 0%, #eef2ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .pd-main-image img {
+            max-height: 430px;
+            object-fit: contain;
+            filter: drop-shadow(0 24px 45px rgba(15, 23, 42, 0.18));
+            transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+
+        .pd-image-fallback {
+            display: grid;
+            place-items: center;
+            gap: 0.8rem;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .pd-image-fallback i {
+            font-size: 3rem;
+            color: #0d9488;
+        }
+
+        .pd-offer-badge,
+        .pd-count-badge {
+            position: absolute;
+            top: 1.2rem;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            border-radius: 999px;
+            padding: 0.65rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.16);
+        }
+
+        .pd-offer-badge {
+            left: 1.2rem;
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .pd-count-badge {
+            right: 1.2rem;
+            background: rgba(255, 255, 255, 0.92);
+            color: #0f172a;
+        }
+
+        .pd-thumbnail-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+            gap: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .pd-thumb {
+            width: 100%;
+            aspect-ratio: 1;
+            padding: 0.55rem;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 18px;
+            background: #fff;
+            cursor: pointer;
+            object-fit: contain;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+        }
+
+        .pd-thumb:hover,
+        .pd-thumb.active {
+            transform: translateY(-3px);
+            border-color: rgba(13, 148, 136, 0.55);
+            box-shadow: 0 16px 28px rgba(13, 148, 136, 0.16);
+        }
+
+        .pd-purchase-card {
+            position: sticky;
+            top: 1.5rem;
+            border-radius: 32px;
+            padding: 1.6rem;
+        }
+
+        .pd-brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .pd-brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.55rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(13, 148, 136, 0.1);
+            color: #0f766e;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .pd-wishlist-btn {
+            width: 52px;
+            height: 52px;
+            border: none;
+            border-radius: 16px;
+            background: #fff5f5;
+            color: #ef4444;
+            font-size: 1.3rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            box-shadow: 0 12px 24px rgba(239, 68, 68, 0.12);
+        }
+
+        .pd-wishlist-btn:hover {
+            transform: translateY(-2px);
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .pd-price-card {
+            padding: 1.1rem 1.15rem;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(99, 102, 241, 0.08));
+            border: 1px solid rgba(13, 148, 136, 0.14);
+        }
+
+        .pd-price-label {
+            margin: 0 0 0.4rem;
+            color: #64748b;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .pd-price-main {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .pd-price-current {
+            font-size: 2.4rem;
+            line-height: 1;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .pd-price-original {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            text-decoration: line-through;
+            font-weight: 600;
+        }
+
+        .pd-price-note {
+            margin: 0;
+            color: #0f766e;
+            font-weight: 600;
+        }
+
+        .pd-purchase-copy {
+            margin: 1.25rem 0 0;
+            color: #475569;
+            line-height: 1.75;
+        }
+
+        .pd-quick-specs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9rem;
+            margin: 1.4rem 0;
+        }
+
+        .pd-quick-spec {
+            padding: 0.95rem 1rem;
+            border-radius: 20px;
+            background: #fff;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .pd-quick-spec span {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: #64748b;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+
+        .pd-quick-spec strong {
+            color: #0f172a;
+            font-size: 1rem;
+            line-height: 1.45;
+        }
+
+        .pd-action-stack {
+            display: grid;
+            gap: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .pd-add-cart {
+            border: none;
+            border-radius: 18px;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #0d9488, #6366f1);
+            box-shadow: 0 18px 30px rgba(99, 102, 241, 0.22);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pd-add-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 36px rgba(99, 102, 241, 0.28);
+        }
+
+        .pd-support-list {
+            display: grid;
+            gap: 0.8rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .pd-support-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .pd-support-list i {
+            display: inline-grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: rgba(13, 148, 136, 0.1);
+            color: #0d9488;
+        }
+
+        .pd-section-card {
+            border-radius: 30px;
+            padding: 1.6rem;
+            margin-top: 1.6rem;
+        }
+
+        .pd-section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .pd-section-title {
+            margin: 0;
+            color: #0f172a;
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .pd-section-subtitle {
+            margin: 0.3rem 0 0;
+            color: #64748b;
+        }
+
+        .pd-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .pd-feature-card {
+            border-radius: 24px;
+            padding: 1.15rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        .pd-feature-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: inline-grid;
+            place-items: center;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: #0d9488;
+            background: rgba(13, 148, 136, 0.12);
+        }
+
+        .pd-feature-label {
+            margin: 0 0 0.4rem;
+            color: #64748b;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .pd-feature-value {
+            margin: 0;
+            color: #0f172a;
+            font-size: 1.02rem;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .pd-points-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .pd-points-card {
+            border-radius: 30px;
+            padding: 1.4rem;
+        }
+
+        .pd-points-card--pros {
+            background: linear-gradient(180deg, #f8fffc 0%, #ffffff 100%);
+        }
+
+        .pd-points-card--cons {
+            background: linear-gradient(180deg, #fff8f8 0%, #ffffff 100%);
+        }
+
+        .pd-points-head {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            margin-bottom: 1.15rem;
+        }
+
+        .pd-points-head i {
+            width: 48px;
+            height: 48px;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 16px;
+            font-size: 1.25rem;
+        }
+
+        .pd-points-card--pros .pd-points-head i {
+            color: #16a34a;
+            background: rgba(22, 163, 74, 0.12);
+        }
+
+        .pd-points-card--cons .pd-points-head i {
+            color: #dc2626;
+            background: rgba(220, 38, 38, 0.1);
+        }
+
+        .pd-points-head h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .pd-points-head p {
+            margin: 0.2rem 0 0;
+            color: #64748b;
+        }
+
+        .pd-points-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        .pd-points-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            color: #334155;
+            line-height: 1.7;
+            padding: 0.85rem 0.95rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+        }
+
+        .pd-points-list li i {
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        .pd-points-card--pros .pd-points-list li i {
+            color: #16a34a;
+        }
+
+        .pd-points-card--cons .pd-points-list li i {
+            color: #dc2626;
+        }
+
+        .pd-empty-state {
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .pd-fade-in {
+            opacity: 0;
+            animation: pdFadeUp 0.65s ease forwards;
+        }
+
+        @@keyframes pdFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@media (max-width: 1199.98px) {
+            .pd-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .pd-purchase-card {
+                position: static;
+            }
+        }
+
+        @@media (max-width: 767.98px) {
+            .pd-page {
+                margin-top: 1.2rem;
+                padding-top: 1rem;
+            }
+
+            .pd-hero-card,
+            .pd-gallery,
+            .pd-purchase-card,
+            .pd-section-card,
+            .pd-points-card {
+                border-radius: 24px;
+                padding: 1.15rem;
+            }
+
+            .pd-main-image {
+                min-height: 340px;
+                padding: 1.25rem;
+            }
+
+            .pd-main-image img {
+                max-height: 280px;
+            }
+
+            .pd-quick-specs,
+            .pd-points-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pd-count-badge,
+            .pd-offer-badge {
+                top: 0.9rem;
+            }
+
+            .pd-offer-badge {
+                left: 0.9rem;
+            }
+
+            .pd-count-badge {
+                right: 0.9rem;
+            }
+        }
+    </style>
+}
+
+<div class="pd-page">
+    <div class="pd-shell pd-fade-in">
+        <div class="pd-hero">
+            <div class="pd-hero-card">
+                <nav aria-label="breadcrumb" class="pd-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door-fill me-1"></i>Home
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">@Model.CategoryName</li>
+                        <li class="breadcrumb-item">@Model.BrandName</li>
+                        <li class="breadcrumb-item active fw-semibold" aria-current="page">@Model.Name</li>
+                    </ol>
+                </nav>
+
+                <span class="pd-kicker">
+                    <i class="bi bi-stars"></i>
+                    Refined tech showcase
+                </span>
+
+                <h1 class="pd-title">@Model.Name</h1>
+                <p class="pd-description">@Model.Description</p>
+
+                <div class="pd-chip-list">
+                    <span class="pd-chip">
+                        <i class="bi bi-phone"></i>
+                        @Model.BrandName
+                    </span>
+                    <span class="pd-chip">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        @Model.CategoryName
+                    </span>
+                    <span class="pd-chip">
+                        <i class="bi bi-palette-fill"></i>
+                        @Model.Color
+                    </span>
+                </div>
+            </div>
+
+            <div class="pd-highlight-card">
+                <div class="pd-highlight-label">Quick snapshot</div>
+                <div class="pd-highlight-price">$@currentPrice.ToString("0.00")</div>
+                <p class="pd-highlight-subtitle">
+                    A cleaner product view focused on the headline specs, the offer price, and the details shoppers care about first.
+                </p>
+
+                <div class="pd-highlight-grid">
+                    <div class="pd-highlight-stat">
+                        <span>Processor</span>
+                        <strong>@Model.CPU</strong>
+                    </div>
+                    <div class="pd-highlight-stat">
+                        <span>Memory</span>
+                        <strong>@Model.RAM</strong>
+                    </div>
+                    <div class="pd-highlight-stat">
+                        <span>Storage</span>
+                        <strong>@Model.Storage</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 align-items-start">
+            <div class="col-xl-7">
+                <div class="pd-gallery">
+                    <div class="pd-main-image">
+                        @if (hasOfferPercentage)
+                        {
+                            <span class="pd-offer-badge">
+                                <i class="bi bi-lightning-charge-fill"></i>
+                                -@Model.Precentage% OFF
+                            </span>
+                        }
+
+                        <span class="pd-count-badge">
+                            <i class="bi bi-images"></i>
+                            @productPhotos.Count @(productPhotos.Count == 1 ? "photo" : "photos")
+                        </span>
+
+                        @if (!string.IsNullOrWhiteSpace(mainPhoto))
+                        {
+                            <img id="mainProductImage" src="~/ProductPhotoes/@mainPhoto" alt="@Model.Name" class="img-fluid" />
+                        }
+                        else
+                        {
+                            <div class="pd-image-fallback">
+                                <i class="bi bi-image"></i>
+                                <div>
+                                    <strong class="d-block mb-1">No product image available</strong>
+                                    <span>The page layout still supports the product details cleanly.</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    @if (productPhotos.Count > 1)
+                    {
+                        <div class="pd-thumbnail-row">
+                            @for (var i = 0; i < productPhotos.Count; i++)
+                            {
+                                <img src="~/ProductPhotoes/@productPhotos[i]"
+                                     class="pd-thumb @(i == 0 ? "active" : "")"
+                                     alt="@Model.Name view @(i + 1)"
+                                     onclick="changeMainImage(this, '@productPhotos[i]')" />
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-xl-5">
+                <div class="pd-purchase-card">
+                    <div class="pd-brand-row">
+                        <span class="pd-brand-badge">
+                            <i class="bi bi-patch-check-fill"></i>
+                            @Model.BrandName
+                        </span>
+                        <button class="pd-wishlist-btn" type="button" title="Save for later" data-bs-toggle="tooltip" data-bs-placement="top">
+                            <i class="bi bi-heart-fill"></i>
+                        </button>
+                    </div>
+
+                    <div class="pd-price-card">
+                        <p class="pd-price-label">Current price</p>
+                        <div class="pd-price-main">
+                            <span class="pd-price-current">$@currentPrice.ToString("0.00")</span>
+                            @if (hasOfferPrice)
+                            {
+                                <span class="pd-price-original">$@Model.Price.ToString("0.00")</span>
+                            }
+                        </div>
+                        @if (hasOfferPrice)
+                        {
+                            <p class="pd-price-note">You save $@savings.ToString("0.00") on this offer.</p>
+                        }
+                    </div>
+
+                    <p class="pd-purchase-copy">
+                        Crisp visuals, a more premium presentation, and better spacing make this detail page easier to scan while keeping the exact same product data and page behavior.
+                    </p>
+
+                    <div class="pd-quick-specs">
+                        <div class="pd-quick-spec">
+                            <span>Display</span>
+                            <strong>@Model.Screen</strong>
+                        </div>
+                        <div class="pd-quick-spec">
+                            <span>Camera</span>
+                            <strong>@Model.Camera</strong>
+                        </div>
+                        <div class="pd-quick-spec">
+                            <span>Battery</span>
+                            <strong>@Model.Battary</strong>
+                        </div>
+                        <div class="pd-quick-spec">
+                            <span>Finish</span>
+                            <strong>@Model.Color</strong>
+                        </div>
+                    </div>
+
+                    <div class="pd-action-stack">
+                        <button class="pd-add-cart" type="button">
+                            <i class="bi bi-bag-plus-fill me-2"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <ul class="pd-support-list">
+                        <li>
+                            <i class="bi bi-truck"></i>
+                            Fast delivery presentation block
+                        </li>
+                        <li>
+                            <i class="bi bi-shield-lock"></i>
+                            Secure checkout look and feel
+                        </li>
+                        <li>
+                            <i class="bi bi-chat-dots"></i>
+                            Cleaner support and trust messaging
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="pd-section-card">
+            <div class="pd-section-head">
+                <div>
+                    <h2 class="pd-section-title">Technical specifications</h2>
+                    <p class="pd-section-subtitle">Everything important, organized into a cleaner grid.</p>
+                </div>
+                <span class="pd-chip">
+                    <i class="bi bi-sliders"></i>
+                    Product overview
+                </span>
+            </div>
+
+            <div class="pd-feature-grid">
+                <div class="pd-feature-card">
+                    <div class="pd-feature-icon"><i class="bi bi-cpu"></i></div>
+                    <p class="pd-feature-label">Processor</p>
+                    <p class="pd-feature-value">@Model.CPU</p>
+                </div>
+                <div class="pd-feature-card">
+                    <div class="pd-feature-icon"><i class="bi bi-memory"></i></div>
+                    <p class="pd-feature-label">RAM</p>
+                    <p class="pd-feature-value">@Model.RAM</p>
+                </div>
+                <div class="pd-feature-card">
+                    <div class="pd-feature-icon"><i class="bi bi-device-hdd"></i></div>
+                    <p class="pd-feature-label">Storage</p>
+                    <p class="pd-feature-value">@Model.Storage</p>
+                </div>
+                <div class="pd-feature-card">
+                    <div class="pd-feature-icon"><i class="bi bi-display"></i></div>
+                    <p class="pd-feature-label">Display</p>
+                    <p class="pd-feature-value">@Model.Screen</p>
+                </div>
+                <div class="pd-feature-card">
+                    <div class="pd-feature-icon"><i class="bi bi-camera"></i></div>
+                    <p class="pd-feature-label">Camera</p>
+                    <p class="pd-feature-value">@Model.Camera</p>
+                </div>
+                <div class="pd-feature-card">
+                    <div class="pd-feature-icon"><i class="bi bi-battery-charging"></i></div>
+                    <p class="pd-feature-label">Battery</p>
+                    <p class="pd-feature-value">@Model.Battary</p>
+                </div>
+                <div class="pd-feature-card">
+                    <div class="pd-feature-icon"><i class="bi bi-palette"></i></div>
+                    <p class="pd-feature-label">Color</p>
+                    <p class="pd-feature-value">@Model.Color</p>
+                </div>
+                <div class="pd-feature-card">
+                    <div class="pd-feature-icon"><i class="bi bi-grid"></i></div>
+                    <p class="pd-feature-label">Category</p>
+                    <p class="pd-feature-value">@Model.CategoryName</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="pd-section-card">
+            <div class="pd-section-head">
+                <div>
+                    <h2 class="pd-section-title">Why shoppers may love it</h2>
+                    <p class="pd-section-subtitle">Pros and considerations, restyled into clearer comparison cards.</p>
+                </div>
+            </div>
+
+            <div class="pd-points-grid">
+                <div class="pd-points-card pd-points-card--pros">
+                    <div class="pd-points-head">
+                        <i class="bi bi-hand-thumbs-up-fill"></i>
+                        <div>
+                            <h3>Highlights & pros</h3>
+                            <p>Strong selling points surfaced in a cleaner card.</p>
+                        </div>
+                    </div>
+
+                    <ul class="pd-points-list">
+                        @if (advantages.Any())
+                        {
+                            @foreach (var item in advantages)
+                            {
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>@item</span>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="pd-empty-state">
+                                <i class="bi bi-info-circle"></i>
+                                <span>No advantages listed.</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="pd-points-card pd-points-card--cons">
+                    <div class="pd-points-head">
+                        <i class="bi bi-exclamation-diamond-fill"></i>
+                        <div>
+                            <h3>Considerations</h3>
+                            <p>Trade-offs presented with the same visual weight.</p>
+                        </div>
+                    </div>
+
+                    <ul class="pd-points-list">
+                        @if (disadvantages.Any())
+                        {
+                            @foreach (var item in disadvantages)
+                            {
+                                <li>
+                                    <i class="bi bi-dash-circle-fill"></i>
+                                    <span>@item</span>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="pd-empty-state">
+                                <i class="bi bi-info-circle"></i>
+                                <span>No disadvantages listed.</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            var wishlistButton = document.querySelector('.pd-wishlist-btn');
+            if (wishlistButton) {
+                wishlistButton.addEventListener('click', function () {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            }
+        });
+
+        function changeMainImage(element, imageUrl) {
+            const mainImg = document.getElementById('mainProductImage');
+
+            if (!mainImg) {
+                return;
+            }
+
+            mainImg.style.opacity = '0.25';
+            mainImg.style.transform = 'scale(0.98)';
+
+            setTimeout(() => {
+                mainImg.src = '/ProductPhotoes/' + imageUrl;
+                mainImg.style.opacity = '1';
+                mainImg.style.transform = 'scale(1)';
+            }, 180);
+
+            document.querySelectorAll('.pd-thumb').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+
+            element.classList.add('active');
+        }
+    </script>
+}

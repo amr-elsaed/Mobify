@@ -1,4 +1,4 @@
-﻿        @using Mobify.BLL.ModelVM.HomePageVM
+        @using Mobify.BLL.ModelVM.HomePageVM
 @{
     Layout = null;
 }
@@ -83,9 +83,33 @@
                     <i class="bi bi-cart3"></i>
                     <span class="action-badge">5</span>
                 </a>
-                <a href="#" class="header-action user-action" data-bs-toggle="tooltip" title="Account">
-                    <i class="bi bi-person-circle"></i>
-                </a>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="auth-status">
+                        <span class="auth-user-pill" title="@User.Identity.Name">
+                            <i class="bi bi-person-circle"></i>
+                            <span class="auth-user-name">@User.Identity.Name</span>
+                        </span>
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="auth-logout-form">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="auth-logout-btn" title="Logout" aria-label="Logout">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="auth-link auth-link--ghost" title="Login">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Login</span>
+                    </a>
+                    <a asp-controller="Account" asp-action="Register" class="auth-link auth-link--primary" title="Register">
+                        <i class="bi bi-person-plus"></i>
+                        <span>Register</span>
+                    </a>
+                }
             </div>
         </div>
 
@@ -307,79 +331,6 @@
             <!-- ─────────────── MAIN CONTENT ─────────────── -->
             <main class="main-content" id="mainContent">
 
-
-                <!-- Hero / Featured Carousel -->
-                <section class="hero-carousel">
-                    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-                            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-                            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-                        </div>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="hero-slide hero-slide--1">
-                                    <div class="hero-slide__content">
-                                        <span class="hero-badge">New Release</span>
-                                        <h2>Galaxy S25 Ultra</h2>
-                                        <p>Experience the next generation of mobile photography with 200MP AI-powered camera.</p>
-                                        <div class="hero-actions">
-                                            <a href="#" class="btn btn-hero-primary">Shop Now</a>
-                                            <a href="#" class="btn btn-hero-outline">View Specs</a>
-                                        </div>
-                                    </div>
-                                    <div class="hero-slide__visual">
-                                        <div class="hero-phone-mockup">
-                                            <i class="bi bi-phone-fill"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="hero-slide hero-slide--2">
-                                    <div class="hero-slide__content">
-                                        <span class="hero-badge">Best Seller</span>
-                                        <h2>iPhone 17 Pro Max</h2>
-                                        <p>Titanium design. A18 Pro chip. The most powerful iPhone ever.</p>
-                                        <div class="hero-actions">
-                                            <a href="#" class="btn btn-hero-primary">Shop Now</a>
-                                            <a href="#" class="btn btn-hero-outline">View Specs</a>
-                                        </div>
-                                    </div>
-                                    <div class="hero-slide__visual">
-                                        <div class="hero-phone-mockup">
-                                            <i class="bi bi-apple"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="hero-slide hero-slide--3">
-                                    <div class="hero-slide__content">
-                                        <span class="hero-badge">Hot Deal</span>
-                                        <h2>Pixel 10 Pro</h2>
-                                        <p>Pure Android experience with the best AI features and Tensor G5 chip.</p>
-                                        <div class="hero-actions">
-                                            <a href="#" class="btn btn-hero-primary">Shop Now</a>
-                                            <a href="#" class="btn btn-hero-outline">View Specs</a>
-                                        </div>
-                                    </div>
-                                    <div class="hero-slide__visual">
-                                        <div class="hero-phone-mockup">
-                                            <i class="bi bi-google"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                        </button>
-                    </div>
-                </section>
 
                 <!-- Quick Stats -->
                 <section class="quick-stats">

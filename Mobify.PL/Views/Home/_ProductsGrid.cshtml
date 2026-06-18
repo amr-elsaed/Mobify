@@ -6,7 +6,7 @@
     @foreach (var item in Model.ProductsCardVM)
     {
         <div class="col-6 col-md-4 col-xl-3">
-            <div class="product-card">
+            <div class="product-card" style="cursor:pointer" onclick="location.href='/ProductDetails/GetProductDetails/@item.Id'">
 
                 <!-- Offer Badge -->
                 @if (item.HasOffer)

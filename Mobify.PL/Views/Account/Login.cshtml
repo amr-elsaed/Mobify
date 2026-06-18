@@ -1,0 +1,87 @@
+@model Mobify.BLL.ModelVM.AccountVM.UserLogInVM
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<section class="auth-page">
+    <div class="auth-card">
+        <div class="auth-card__form">
+            <div class="auth-kicker">
+                <i class="bi bi-shield-lock"></i>
+                Secure account access
+            </div>
+
+            <h1 class="auth-title">Log in to Mobify</h1>
+            <p class="auth-subtitle">Pick up where you left off with saved comparisons, faster checkout, and personalized phone deals.</p>
+
+            <form asp-controller="Account" asp-action="Login" method="post" class="auth-form">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger auth-validation-summary" role="alert"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label auth-label">Email address</label>
+                    <div class="auth-input">
+                        <i class="bi bi-envelope"></i>
+                        <input asp-for="Email"
+                               type="email"
+                               class="form-control auth-control"
+                               placeholder="you@example.com"
+                               autocomplete="email"
+                               required />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label auth-label">Password</label>
+                    <div class="auth-input">
+                        <i class="bi bi-key"></i>
+                        <input asp-for="Password"
+                               class="form-control auth-control"
+                               placeholder="Enter your password"
+                               autocomplete="current-password"
+                               required />
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="auth-form__meta">
+                    <div class="form-check">
+                        <input asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label"></label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn auth-submit">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Log in
+                </button>
+            </form>
+
+            <p class="auth-switch">
+                New to Mobify?
+                <a asp-controller="Account" asp-action="Register">Create an account</a>
+            </p>
+        </div>
+
+        <div class="auth-card__aside" aria-hidden="true">
+            <div class="auth-aside__icon">
+                <i class="bi bi-phone-flip"></i>
+            </div>
+            <h2>Smarter mobile shopping starts here.</h2>
+            <div class="auth-aside__list">
+                <span><i class="bi bi-check2-circle"></i> Saved wishlists</span>
+                <span><i class="bi bi-check2-circle"></i> Faster checkout</span>
+                <span><i class="bi bi-check2-circle"></i> Member-only offers</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

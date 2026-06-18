@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Mobify.BLL.Services.Implmentation
 {
+    
     public class HomePageServices : IHomePageServices
     {
         private readonly IProductRepo repo;

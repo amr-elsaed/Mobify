@@ -1,15 +1,19 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Mobify.BLL.AutoMapper;
+using Mobify.BLL.SeedingData;
 using Mobify.BLL.Services.Abstraction;
 using Mobify.BLL.Services.Implmentation;
 using Mobify.DAL.DataBase.DBContext;
+using Mobify.DAL.Entities;
 using Mobify.DAL.Repo.Abstraction;
 using Mobify.DAL.Repo.Implmentation;
+
 namespace Mobify.PL
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +32,28 @@ namespace Mobify.PL
             builder.Services.AddScoped<IProductRepo, ProductRepo>();
             builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
             builder.Services.AddScoped<IHomePageServices, HomePageServices>();
-            var app = builder.Build();
+            builder.Services.AddScoped<IProductDetailsService, ProductDetailsService>();
+            builder.Services.AddScoped<IAccountServices,AccountServices>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(op =>
+            {
+                op.Password.RequiredLength = 4;
+                op.Password.RequireUppercase = false;
+                op.Password.RequireNonAlphanumeric = false;
+                op.Password.RequireLowercase = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDBContext>();
+             var app = builder.Build();
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
 
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+                await SeedingData.SeedRoles(roleManager);
+
+                await SeedingData.SeedAdmin(userManager);
+            }
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -43,6 +67,7 @@ namespace Mobify.PL
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

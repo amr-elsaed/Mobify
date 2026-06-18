@@ -1,7 +1,10 @@
-﻿namespace Mobify.DAL.DataBase.DBContext
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+namespace Mobify.DAL.DataBase.DBContext
 {
-    public class ApplicationDBContext : DbContext
+    public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     {
+
         public DbSet<Brand> Brands {  get; set; }
         public DbSet<BrandPhoto> BrandPhotos {  get; set; }
         public DbSet<Category> Categories {  get; set; }
@@ -9,7 +12,7 @@
         public DbSet<ProductPhoto> ProductPhotos {  get; set; }
         public DbSet<ProductOffer> ProductOffers {  get; set; }
         public DbSet<ProductProperties> ProductProperties {  get; set; }
-
+        
         public ApplicationDBContext(DbContextOptions options) : base(options)
         {
         }
