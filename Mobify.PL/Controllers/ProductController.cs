@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Mobify.BLL.ModelVM.ProductVM;
 using Mobify.BLL.ModelVM.ResponseResult;
 using Mobify.BLL.Services.Abstraction;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace Mobify.PL.Controllers
 {
     [Authorize(Roles ="Admin")]
-    public class ProductController : Controller
+    public class ProductController : Controller 
     {
         private readonly IProductServices services;
         private readonly ICategoryService categoryServices ;

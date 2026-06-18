@@ -32,6 +32,10 @@ namespace Mobify.PL.Controllers
             var result = await accountServices.SignIn(user);
             if (result)
             {
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Index", "Product");
+                }
                 return RedirectToAction("Index", "Home");
             }
 

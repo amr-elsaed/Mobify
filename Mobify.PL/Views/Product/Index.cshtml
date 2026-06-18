@@ -1,4 +1,4 @@
-﻿@using Mobify.BLL.ModelVM.ProductVM
+@using Mobify.BLL.ModelVM.ProductVM
 @using Mobify.BLL.ModelVM.ResponseResult
 @model PagedResult<ShowProductVM>
 
@@ -17,7 +17,7 @@
     </div>
 
     <!-- 🔎 Search & Filters -->
-    <form method="get" class="row g-3 align-items-end mb-4 p-3 border rounded shadow-sm bg-light">
+    <form id="filterForm" method="get" class="row g-3 align-items-end mb-4 p-3 border rounded shadow-sm bg-light">
 
         <div class="col-md-3">
             <label class="form-label small fw-semibold">Search</label>
@@ -95,7 +95,7 @@
 </div>
 
 <script>
-    const form = document.querySelector("form");
+    const form = document.querySelector("#filterForm");
     const container = document.getElementById("productsContainer");
 
     let timeout = null;
@@ -109,7 +109,7 @@
             params.set("page", page);
         }
 
-        fetch(`/Product?${params.toString()}`, {
+        fetch(`@Url.Action("Index", "Product")?${params.toString()}`, {
             headers: {
                 "X-Requested-With": "XMLHttpRequest"
             }
@@ -134,6 +134,11 @@
 
     form.querySelectorAll("select").forEach(select => {
         select.addEventListener("change", debounceLoad);
+    });
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        loadProducts();
     });
 
     function attachPagination() {
